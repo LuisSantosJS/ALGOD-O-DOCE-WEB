@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState, createRef } from 'react';
+import React, { useEffect, useState, useRef, createRef } from 'react';
 import api, { URL } from '../service/api';
-
+import './styles.css'
+import ReactDOM from 'react-dom';
 interface Turmas {
     _id: string;
     name: string;
@@ -25,6 +26,49 @@ const Home: React.FC = () => {
     const [turmas, setTurmas] = useState<Turmas[]>([]);
     const [galery, setGalery] = useState<Galery[]>([]);
     const [portifolio, setPortifolio] = useState<Portifolio[]>([]);
+    const aboutRef = createRef<any>();
+    const turmasRef = createRef<any>();
+    const atividadesRef = createRef<any>();
+    const venueRef = createRef<any>();
+    const scheduleRef = createRef<any>();
+    const galleryRef = createRef<any>();
+    const contactRef = createRef<any>();
+    const supportersRef = createRef<any>();
+    const scrollTo = (div: string) => {
+        if (div === 'about') {
+            let node = ReactDOM.findDOMNode(aboutRef.current) as Element;
+            node.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+        if (div === 'turmas') {
+            let node = ReactDOM.findDOMNode(turmasRef.current) as Element;
+            node.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+        if (div === 'atividades') {
+            let node = ReactDOM.findDOMNode(atividadesRef.current) as Element;
+            node.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+        if (div === 'venue') {
+            let node = ReactDOM.findDOMNode(venueRef.current) as Element;
+            node.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+        if (div === 'schedule') {
+            let node = ReactDOM.findDOMNode(scheduleRef.current) as Element;
+            node.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+        if (div === 'gallery') {
+            let node = ReactDOM.findDOMNode(galleryRef.current) as Element;
+            node.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+        if (div === 'contact') {
+            let node = ReactDOM.findDOMNode(contactRef.current) as Element;
+            node.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+        if (div === 'supporters') {
+            let node = ReactDOM.findDOMNode(supportersRef.current) as Element;
+            node.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+
+    }
     const loadTurmas = () => {
         api.get('/turmas/index').then(res => {
             setTurmas(res.data);
@@ -56,15 +100,15 @@ const Home: React.FC = () => {
                     </div>
                     <nav id="nav-menu-container">
                         <ul className="nav-menu">
-                            <li className="menu-active"><a>Home</a></li>
-                            <li><a href="#turmas" >Turmas</a></li>
-                            <li><a href="#atividades">Atividades</a></li>
-                            <li><a href="#about">A Escola</a></li>
-                            <li><a href="#venue">Cardápio</a></li>
-                            <li><a href="#schedule">Calendário</a></li>
-                            <li><a href="#gallery">Galerias</a></li>
-                            <li><a href="#contact">Contato</a></li>
-                            <li><a href="#supporters">Restrito</a></li>
+                            <li className="menu-active"><a href="#">Home</a></li>
+                            <li><a onClick={() => scrollTo('turmas')} >Turmas</a></li>
+                            <li><a  >Atividades</a></li>
+                            <li><a onClick={() => scrollTo('about')}>A Escola</a></li>
+                            <li><a >Cardápio</a></li>
+                            <li><a >Calendário</a></li>
+                            <li><a onClick={() => scrollTo('gallery')}>Galerias</a></li>
+                            <li><a onClick={() => scrollTo('contact')}>Contato</a></li>
+                            <li><a >Restrito</a></li>
                             <li className="buy-tickets"><a href="#buy-tickets">Agende uma Visita</a></li>
                         </ul>
                     </nav>
@@ -82,7 +126,7 @@ const Home: React.FC = () => {
 
 
             <main id="main">
-                <section id="about">
+                <section ref={aboutRef} id="about">
                     <div className="container" data-aos="fade-up">
                         <div className="row">
                             <div className="col-lg-6">
@@ -239,7 +283,7 @@ const Home: React.FC = () => {
                     </div>
                 </section>
 
-                <section id="turmas">
+                <section ref={turmasRef} id="turmas">
                     <div className="container" data-aos="fade-up">
                         <div className="section-header">
                             <h2>Turmas</h2>
@@ -270,7 +314,7 @@ const Home: React.FC = () => {
                     </div>
                 </section>
 
-                <section id="gallery">
+                <section ref={galleryRef} id="gallery">
 
                     <div className="container" data-aos="fade-up">
                         <div className="section-header">
@@ -359,7 +403,7 @@ const Home: React.FC = () => {
                     </div>
                 </section>
 
-                <section id="contact" className="section-bg">
+                <section ref={contactRef} id="contact" className="section-bg">
 
                     <div className="container" data-aos="fade-up">
 
