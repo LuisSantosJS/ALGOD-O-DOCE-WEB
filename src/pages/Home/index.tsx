@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState, useRef, createRef } from 'react';
-import api, { URL } from '../service/api';
+import React, { useEffect, useState, createRef } from 'react';
+import api, { URL } from '../../service/api';
 import './styles.css'
 import ReactDOM from 'react-dom';
 interface Turmas {

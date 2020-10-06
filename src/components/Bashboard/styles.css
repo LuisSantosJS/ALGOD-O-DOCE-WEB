@@ -1,0 +1,70 @@
+.viewContainerBash{
+    display: flex;
+    height: 110vh;
+    flex-direction: column;
+    width: 100vw;
+    align-items: center;
+    justify-content: space-around;
+    overflow: scroll;
+    overflow-y: scroll;
+}
+
+.none{
+    display: none;
+    background-color: none;
+}
+
+.spacingviewbash{
+    display: flex ; 
+    width: 100vw;
+    height: 20vh;
+}
+
+.imgsa{
+   display: flex;
+   height: 50%;
+
+}
+
+.rowsBlocks{
+    display: flex;
+    height: 50vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+
+.itemBash{
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+    height: 90%;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+    background-color:  #5fbae9;
+    border-radius: 5%;
+}
+
+@media screen and (max-width:500px) {
+    .rowsBlocks{ 
+        height: 240vh;
+        width: 100vw;
+        flex-direction: column;
+    }
+
+   .itemBash{
+    
+    width: 90%;
+    height: 30%;
+    border-radius: 5%;
+   }
+   .viewContainerBash{
+
+    height: 500vh;
+   }
+
+
+}
