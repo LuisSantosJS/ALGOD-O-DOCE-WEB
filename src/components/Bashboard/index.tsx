@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom'
 import { useToken } from '../../context/contextMain';
 import './styles.css';
 
@@ -18,26 +19,27 @@ const Bashboard: React.FC = () => {
             <div className="viewContainerBash">
                 <div className="spacingviewbash" />
                 <div className="rowsBlocks">
-                    <div className="itemBash">
+                    <Link className="itemBash" to='/admin/atividades'>
                         <img className='imgsa' src={atividades} alt="Atividades" />
-                    </div>
-                    <div className="itemBash">
-                        <img className='imgsa' src={turmas} alt="Atividades" />
-                    </div>
-                    <div className="itemBash">
-                        <img className='imgsa' src={galery} alt="Atividades" />
-                    </div>
+                    </Link>
+                    <Link className="itemBash" to='/admin/turmas'>
+                        <img className='imgsa' src={turmas} alt="Turmas" />
+                    </Link>
+                    <Link className="itemBash" to='/admin/galery'>
+                        <img className='imgsa' src={galery} alt="Galery" />
+                    </Link>
                 </div>
+
                 <div className="rowsBlocks">
-                    <div className="itemBash">
-                        <img className='imgsa' src={users} alt="Atividades" />
-                    </div>
-                    <div className="itemBash">
-                        <img className='imgsa' src={portifolio} alt="Atividades" />
-                    </div>
-                    <div className="itemBash">
-                        <img className='imgsa' src={cardapio} alt="Atividades" />
-                    </div>
+                    <Link className="itemBash" to='/admin/professores'>
+                        <img className='imgsa' src={users} alt="Users" />
+                    </Link>
+                    <Link className="itemBash" to='/admin/portifolio'>
+                        <img className='imgsa' src={portifolio} alt="Portifolio" />
+                    </Link>
+                    <Link className="itemBash" to='/admin/cardapio'>
+                        <img className='imgsa' src={cardapio} alt="Cardapio" />
+                    </Link>
                 </div>
             </div>
         </>
