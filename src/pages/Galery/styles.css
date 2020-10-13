@@ -1,7 +1,166 @@
-.viewContainer{
+.viewContainercsr{
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #E5E5E5;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-   }
+}
+
+
+.asiyvgoclvyosueyt{
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+
+}
+.asiyvgoclvyosueyt2{
+    display: flex;
+    width: 60%;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+
+}
+.as{
+    cursor: pointer;
+}
+
+.luigiokio{
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-around;
+}
+   .asvuhaiouaoibsivv{
+       display: flex;
+       width: 80%;
+       cursor: pointer;
+       padding: 10px;
+       align-items: center;
+       justify-content: center;
+       border-width: 5px;
+       border-color: white;
+       border-radius: 5px;
+}
+   .asvuhaiouaoibsivv2{
+    display: flex;
+    width: 40%;
+    cursor: pointer;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    border-width: 5px;
+    border-color: white;
+    border-radius: 5px;
+}
+
+   .float{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#2E9DA0;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+    box-shadow: 2px 2px 3px #707070;
+    cursor: pointer;
+}
+.float:hover{
+    background-color:#2E9D80;
+}
+
+
+
+.modal {
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Overlay effect: translucent background: black w/ partial opacity */
+    z-index: 1; /* Overlay effect: positioned over other containers */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    position: fixed; /* Fix position on the top-left corner*/
+    top: 0;
+    left: 0;
+    overflow: auto; /* Enable scroll if needed */
+    padding-top: 30px; /* Location of the content container */
+  }
+  /* Modal content */
+  .modal-content {
+    display: flex;
+    background-color:white;
+    width: 50%; /* Width in proportion to its parent container*/
+    max-width: 640px; /* Max width where it stops expanding */
+    min-height: 40%; /* Height in proportion to its parent container */
+    margin: auto; /* Auto margin according to the element width */
+    padding: 10px;
+    /* flex-wrap: wrap; */
+    border: 1px solid black;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px; /* Optional. Rounds container corners */
+  }
+  .cancel{
+    cursor: pointer;
+    color: red;
+  
+  }
+
+  .rowss{
+    width: 100%;
+}
+
+.textareas{
+    width: 100%;
+    height: 140px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+.vjanltjviurytrhbnkc{
+    display: flex;
+    width: 70%;
+   background-color: #2E9DA0;
+   padding: 10px;
+   align-items: center;
+   justify-content: center;
+   color: white;
+   border-radius: 5px;
+}
+.vjanltjviurytrhbnkc:hover{
+    background-color:#2E9D80;
+    cursor: pointer;
+}
+
+.btbyfhnbfe{
+    cursor: pointer;
+}
+
+.formsss{
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content:space-around;
+    overflow: scroll;
+
+}
+
+.inpstshome {
+    width: 100%;
+    height: 40px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+
+}

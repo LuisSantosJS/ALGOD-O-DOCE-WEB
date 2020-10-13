@@ -48,13 +48,13 @@ const Provider: React.FC = ({ children }) => {
             }).catch(res => console.log('aaaa', res)).finally(() => {
                 setTimeout(() => {
                     return checkAuth();
-                }, 7000);
+                }, 120*60000);
             })
         }
         if (userSaved) {
             setTimeout(() => {
                 return checkAuth();
-            }, 7000);
+            }, 120*60000);
         }
     }, [userSaved]);
 

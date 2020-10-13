@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState, createRef } from 'react';
 import api, { URL } from '../../service/api';
-import './styles.css'
+import './styles.css';
+
 import ReactDOM from 'react-dom';
 interface Turmas {
     _id: string;
@@ -91,7 +92,7 @@ const Home: React.FC = () => {
         loadPortifolio();
     }, []);
     return (
-        <React.Fragment>
+        <>
             <header id="header">
                 <div className="container">
                     <div id="logo" className="pull-left">
@@ -261,13 +262,13 @@ const Home: React.FC = () => {
                                 <br />
                                 {portifolio.map(res => {
                                     return (
-                                        <>
-                                            <img src={`${URL}${res.imageURL}`}
+                                        <React.Fragment key={res._id}>
+                                            <img src={`${res.imageURL}`}
                                                 className="lazy img-responsive img-thumbnail" alt={res.description}
                                                 title={res.name} />
                                             <br />
                                             <br />
-                                        </>
+                                        </React.Fragment>
                                     )
                                 })}
                             </div>
@@ -295,7 +296,7 @@ const Home: React.FC = () => {
                                 return (
                                     <div key={res._id} className="col-lg-4 col-md-6">
                                         <div className="turma" data-aos="fade-up" data-aos-delay="100">
-                                            <img src={`${URL}${res.imageURL}`} alt="turma 1" className="img-fluid" />
+                                            <img src={`${res.imageURL}`} alt="turma 1" className="img-fluid" />
                                             <div className="details">
                                                 <h3><a href="turma-details.html">{res.name}</a></h3>
                                                 <p>{res.description}</p>
@@ -325,8 +326,9 @@ const Home: React.FC = () => {
                     <div className="owl-carousel gallery-carousel " data-aos="fade-up" data-aos-delay="100">
                         {galery.map(res => {
                             return (
-                                <a key={res._id} href={`${URL}${res.imageURL}`} className="venobox" data-gall="gallery-carousel"><img
-                                    src={`${URL}${res.imageURL}`} alt={res.description} /></a>
+                                <a key={res._id} href={`${res.imageURL}`} className="venobox" data-gall="gallery-carousel">
+                                    <img src={`${res.imageURL}`} alt={res.description} />
+                                </a>
                             )
                         })}
                     </div>
@@ -541,7 +543,7 @@ const Home: React.FC = () => {
                 </div>
             </footer>
             <a href="#" className="back-to-top"><i className="fa fa-angle-up"></i></a>
-        </React.Fragment>
+        </>
     );
 }
 

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'
-import { useToken } from '../../context/contextMain';
+
 import './styles.css';
 
 
 const Bashboard: React.FC = () => {
-    const { token } = useToken();
+  
     const atividades = require('../../assets/list.png');
     const turmas = require('../../assets/students.png');
     const galery = require('../../assets/photos.png');
