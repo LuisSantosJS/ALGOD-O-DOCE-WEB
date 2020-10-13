@@ -75,6 +75,7 @@ const Professores: React.FC = () => {
 
             }
         })
+        setModal(false);
 
     }
 

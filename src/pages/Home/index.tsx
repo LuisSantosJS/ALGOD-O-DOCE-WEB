@@ -323,7 +323,7 @@ const Home: React.FC = () => {
                             <p>Fotos e vídeos dos últimos eventos.</p>
                         </div>
                     </div>
-                    <div className="owl-carousel gallery-carousel " data-aos="fade-up" data-aos-delay="100">
+                    <div className="owl-carousel gallery-carousel " data-aos="fade-up" data-aos-delay={100}>
                             {galery.map(res => {
                                 return (
                                     <a key={res._id} href={`${res.imageURL}`} className="venobox" data-gall="gallery-carousel">
