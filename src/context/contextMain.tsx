@@ -36,7 +36,7 @@ const Provider: React.FC = ({ children }) => {
 
     useEffect(() => {
         const checkAuth = () => {
-            console.log('apertado')
+   
             api.post('/users/login', {
                 email: userEmail.toLowerCase(),
                 password: userPassword

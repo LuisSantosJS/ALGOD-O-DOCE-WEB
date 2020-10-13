@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
-import api, { URL } from '../../service/api';
+import api from '../../service/api';
 import Header from '../../components/Header';
 import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';

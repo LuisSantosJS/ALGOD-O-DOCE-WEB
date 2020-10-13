@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
-import api, { URL } from '../../service/api';
+import api from '../../service/api';
 import Header from '../../components/Header';
 import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import { useToken } from '../../context/contextMain';
 // @ts-ignore
 import { mask } from 'remask'
-import upload, { UPLOAD_URL } from '../../service/upload'
+
 interface Item {
     _id: string,
     description: string,
