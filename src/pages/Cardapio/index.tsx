@@ -12,7 +12,7 @@ interface Item {
     _id: string,
     description: string,
     name: string,
-    date: string,
+    data: string,
 
 }
 const del = require('../../assets/delete.png');
@@ -23,7 +23,7 @@ const Cardapio: React.FC = () => {
     const { token } = useToken();
 
     const { addToast } = useToasts();
- 
+
     const [desc, setDesc] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [date, setDate] = useState<string>('');
@@ -43,7 +43,7 @@ const Cardapio: React.FC = () => {
         api.post('/cardapio/create', {
             description: String(desc),
             name: String(name),
-            date: String(date),
+            data: String(date),
 
         }, config).then(res => {
             console.log(res.data)
@@ -106,26 +106,22 @@ const Cardapio: React.FC = () => {
             <Header />
             <main id="main">
                 <div className="spacingviewbash" />
-
-                <ul>
-                    {result.map(res => {
-                        return (
-                            <React.Fragment key={res._id}>
-                                <div className='vauibvusir' >
-                                    <div className='cbakusrycvskV'>
-                                        <h2 className='fnvisunacinsprvs'>{res.name}</h2>
-                                        <h5 className='fnvisunacinsprvs'>{res.description}</h5>
-                                        <h6 className='fnvisunacinsprvs'>{res.date}</h6>
-                                    </div>
-                                    <img onClick={() => onDelete(res._id)} className='avptiuytdefghjytr' height='50' src={del} alt="" />
+                {result.map(res => {
+                    return (
+                        <React.Fragment key={res._id}>
+                            <div className='vauibvusir' >
+                                <div className='cbakusrycvskV'>
+                                    <h2 className='fnvisunacinsprvs'>{res.name}</h2>
+                                    <h5 className='fnvisunacinsprvs'>{res.description}</h5>
+                                    <h6 className='fnvisunacinsprvs'>{res.data}</h6>
                                 </div>
-                                <br />
-                                <br />
-                            </React.Fragment>
-                        )
-                    })}
-                </ul>
-
+                                <img onClick={() => onDelete(res._id)} className='avptiuytdefghjytr' height='50' src={del} alt="" />
+                            </div>
+                            <br />
+                            <br />
+                        </React.Fragment>
+                    )
+                })}
             </main>
             <Modal
                 isOpen={modal}
@@ -140,7 +136,7 @@ const Cardapio: React.FC = () => {
                         <input className={'inpstshome'} value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Insira uma descrição" type="text" />
                         <input className={'inpstshome'} value={date} onChange={(e) => setDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data" type="text" />
                     </div>
-    
+
                     <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Fazer Upload</strong>
                 </form>
             </Modal>
