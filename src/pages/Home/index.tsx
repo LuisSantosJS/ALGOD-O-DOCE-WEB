@@ -2,8 +2,8 @@
 import React, { useEffect, useState, createRef } from 'react';
 import api, { URL } from '../../service/api';
 import './styles.css';
-
 import ReactDOM from 'react-dom';
+
 interface Turmas {
     _id: string;
     name: string;
@@ -324,13 +324,13 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                     <div className="owl-carousel gallery-carousel " data-aos="fade-up" data-aos-delay="100">
-                        {galery.map(res => {
-                            return (
-                                <a key={res._id} href={`${res.imageURL}`} className="venobox" data-gall="gallery-carousel">
-                                    <img src={`${res.imageURL}`} alt={res.description} />
-                                </a>
-                            )
-                        })}
+                            {galery.map(res => {
+                                return (
+                                    <a key={res._id} href={`${res.imageURL}`} className="venobox" data-gall="gallery-carousel">
+                                        <img src={`${res.imageURL}`} alt={res.description} />
+                                    </a>
+                                )
+                            })}
                     </div>
 
                 </section>
