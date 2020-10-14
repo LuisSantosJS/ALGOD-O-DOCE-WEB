@@ -25,7 +25,19 @@
    .abatdyuterty{
        display: flex;
        flex-direction: row;
-       width: 70vw;
+       width: 100%;
+       height: 200px;
+       background-color: #E5E5E5;
        align-items: center;
        justify-content: space-around;
+   }
+
+   .carusyuiuytfbnm{
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: space-around;
+       width: 300px;
+       height: 200px;
+   
    }

@@ -15,8 +15,11 @@ const Add = require('../../assets/add-image.png');
 const Professores: React.FC = () => {
     const [result, setResult] = useState<Item[]>([]);
     const [modal, setModal] = useState<boolean>(false);
+    const [newPassoword, setNewPassword] = useState<string>('');
+    const [modal2, setModal2] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
+    const [ItemUpdate, setItemUpdate] = useState<Item>({} as Item);
     const [code, setCode] = useState<string>('');
     const { token } = useToken();
     const { addToast } = useToasts();
@@ -46,9 +49,9 @@ const Professores: React.FC = () => {
             email,
             password: code,
             name
-        },config).then((res) => {
+        }, config).then((res) => {
             setResult([...result, res.data])
-            setModal(true)
+            setModal(false)
         })
     }
 
@@ -79,31 +82,64 @@ const Professores: React.FC = () => {
 
     }
 
+
+    const onUpdate = () => {
+        const valuess = {
+
+            name: ItemUpdate.name,
+            email: ItemUpdate.email,
+            password: newPassoword,
+        }
+        const config = {
+            headers: {
+                'x-access-token': `${token}`
+            }
+        }
+        api.post('/users/update', valuess, config).then(res => {
+            var news = result.filter(res => res._id !== ItemUpdate._id);
+            setResult([...news, ItemUpdate]);
+            setModal2(false);
+            return addToast(`Sucesso`, {
+                appearance: 'success',
+                autoDismiss: true,
+            })
+        }).catch(() => {
+            setModal2(false);
+            return addToast(`Ocorreu um erro!`, {
+                appearance: 'error',
+                autoDismiss: true,
+            })
+        })
+    }
+
     return (
         <>
             <Header />
             <main id="main">
                 <div className="viewContainercsrS">
                     <div className="spacingviewbash" />
-                    <ul>
-                        {result.map(res => {
-                            return (
-                                <React.Fragment key={res._id}>
-                                    <div className='abatdyuterty'  >
-                                        <div className='carajhghjkcasrv' >
-                                            <h3 className='vstrert'>{res.name}</h3>
-                                            <h6 className='vstrert'>{res.email}</h6>
-                                        </div>
 
-                                        <img src={del} onClick={() => onDelete(res._id)} className='as' height='40' alt="delete" />
-
+                    {result.map(res => {
+                        return (
+                            <React.Fragment key={res._id}>
+                                <div className='abatdyuterty'  >
+                                    <div className='carajhghjkcasrv cursor' onClick={() => {
+                                        setItemUpdate(res);
+                                        setModal2(true)
+                                    }}>
+                                        <h2 className='vstrert'>{res.name}</h2>
+                                        <h4 className='vstrert'>{res.email}</h4>
                                     </div>
-                                    <br />
-                                    <br />
-                                </React.Fragment>
-                            )
-                        })}
-                    </ul>
+
+                                    <img src={del} onClick={() => onDelete(res._id)} className='as' height='40' alt="delete" />
+
+                                </div>
+                                <br />
+                                <br />
+                            </React.Fragment>
+                        )
+                    })}
+
                 </div>
             </main>
             <Modal
@@ -121,6 +157,20 @@ const Professores: React.FC = () => {
                     </div>
                     <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Fazer Upload</strong>
                 </form>
+            </Modal>
+
+
+            <Modal
+                isOpen={modal2}
+                onRequestClose={() => setModal2(false)}
+                style={customStyles}
+                appElement={document.getElementById('root') as HTMLElement}
+                contentLabel="Form Modal">
+                <div className='carusyuiuytfbnm'>
+                    <input value={ItemUpdate.name} onChange={(e) => setItemUpdate({ ...ItemUpdate, name: e.target.value })} />
+                    <input value={newPassoword} onChange={(e) => setNewPassword(e.target.value)} placeholder={'Nova senha'} />
+                    <strong onClick={onUpdate} className='vjanltjviurytrhbnkc' >Atualizar</strong>
+                </div>
             </Modal>
             <div onClick={() => setModal(true)} className="float">
                 <img height='50%' src={Add} alt="" />

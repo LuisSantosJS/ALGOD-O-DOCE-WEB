@@ -20,6 +20,8 @@ const Add = require('../../assets/add-image.png');
 const Cardapio: React.FC = () => {
     const [result, setResult] = useState<Item[]>([]);
     const [modal, setModal] = useState<boolean>(false);
+    const [modal2, setModal2] = useState<boolean>(false);
+    const [itemUpdate, setItemUpdate] = useState<Item>({} as Item);
     const { token } = useToken();
 
     const { addToast } = useToasts();
@@ -101,6 +103,45 @@ const Cardapio: React.FC = () => {
         }
     };
 
+    const onUpdate = () => {
+        const valuess = {
+
+            name: itemUpdate.name,
+            description: itemUpdate.description,
+            data: itemUpdate.data,
+            id: itemUpdate._id
+        }
+        const config = {
+            headers: {
+                'x-access-token': `${token}`
+            }
+        }
+        api.post('/cardapio/update', valuess, config).then(res => {
+            var news = result.filter(res => res._id !== itemUpdate._id);
+            setResult([...news, itemUpdate]);
+            setModal2(false);
+            if (res.data.message === 'success') {
+                return addToast(`Sucesso`, {
+                    appearance: 'success',
+                    autoDismiss: true,
+                })
+            } else {
+                console.log(res.data)
+                return addToast(`Ocorreu um erro!`, {
+                    appearance: 'error',
+                    autoDismiss: true,
+                })
+            }
+
+        }).catch(() => {
+            setModal2(false);
+            return addToast(`Ocorreu um erro!`, {
+                appearance: 'error',
+                autoDismiss: true,
+            })
+        })
+    }
+
     return (
         <>
             <Header />
@@ -110,7 +151,11 @@ const Cardapio: React.FC = () => {
                     return (
                         <React.Fragment key={res._id}>
                             <div className='vauibvusir' >
-                                <div className='cbakusrycvskV'>
+                                <div className='cbakusrycvskV' />
+                                <div className='cbakusrycvskV cursor' onClick={() => {
+                                    setItemUpdate(res);
+                                    setModal2(true);
+                                }}>
                                     <h2 className='fnvisunacinsprvs'>{res.name}</h2>
                                     <h5 className='fnvisunacinsprvs'>{res.description}</h5>
                                     <h6 className='fnvisunacinsprvs'>{res.data}</h6>
@@ -139,6 +184,19 @@ const Cardapio: React.FC = () => {
 
                     <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Fazer Upload</strong>
                 </form>
+            </Modal>
+            <Modal
+                isOpen={modal2}
+                onRequestClose={() => setModal2(false)}
+                style={customStyles}
+                appElement={document.getElementById('root') as HTMLElement}
+                contentLabel="Form Modal">
+                <div className='carusyuiuytfbnm'>
+                    <input value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
+                    <input value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
+                    <input value={itemUpdate.data} onChange={(e) => setItemUpdate({ ...itemUpdate, data: e.target.value })} />
+                    <strong onClick={onUpdate} className='vjanltjviurytrhbnkc' >Atualizar</strong>
+                </div>
             </Modal>
             <div onClick={() => setModal(true)} className="float">
                 <img height='50%' src={Add} alt="" />

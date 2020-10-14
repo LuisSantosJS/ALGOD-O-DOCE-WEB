@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import api from '../../service/api';
 import { useToasts } from 'react-toast-notifications';
-import { useToken, useUserSaved, useUserEmail, useUserPassword } from '../../context/contextMain';
+import { useToken, useUserSaved } from '../../context/contextMain';
 import './styles.css'
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const { setUserEmail } = useUserEmail();
-    const { setUserPassword } = useUserPassword();
     const { addToast } = useToasts();
     const { setToken } = useToken();
     const { setUserSaved } = useUserSaved();
@@ -23,8 +21,8 @@ const Login: React.FC = () => {
                     autoDismiss: true,
                 })
             }
-            setUserPassword(password);
-            setUserEmail(email);
+            localStorage.setItem('userSaved', 'true');
+            localStorage.setItem('token', `${res.data.token}`);
             setToken(res.data.token);
             setUserSaved(true);
             return addToast(`${res.data.res}`, {

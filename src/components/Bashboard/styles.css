@@ -35,12 +35,18 @@
     flex-direction: row;
 }
 
+.aovartre{
+    color: white;
+    font-weight: bold;
+}
+
 
 .itemBash{
     display: flex;
     cursor: pointer;
     align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-around;
     width: 30%;
     height: 90%;
     box-shadow: 5px 5px rgba(0, 0, 0, 0.1);

@@ -21,24 +21,30 @@ const Bashboard: React.FC = () => {
                 <div className="rowsBlocks">
                     <Link className="itemBash" to='/admin/atividades'>
                         <img className='imgsa' src={atividades} alt="Atividades" />
+                        <h3 className='aovartre'>Atividades</h3>
                     </Link>
                     <Link className="itemBash" to='/admin/turmas'>
                         <img className='imgsa' src={turmas} alt="Turmas" />
+                        <h3 className='aovartre'>Turmas</h3>
                     </Link>
                     <Link className="itemBash" to='/admin/galery'>
                         <img className='imgsa' src={galery} alt="Galery" />
+                        <h3 className='aovartre'>Galeria</h3>
                     </Link>
                 </div>
 
                 <div className="rowsBlocks">
                     <Link className="itemBash" to='/admin/professores'>
                         <img className='imgsa' src={users} alt="Users" />
+                        <h3 className='aovartre'>Usuários</h3>
                     </Link>
                     <Link className="itemBash" to='/admin/portifolio'>
                         <img className='imgsa' src={portifolio} alt="Portifolio" />
+                        <h3 className='aovartre'>Portifólio</h3>
                     </Link>
                     <Link className="itemBash" to='/admin/cardapio'>
                         <img className='imgsa' src={cardapio} alt="Cardapio" />
+                        <h3 className='aovartre'>Cardápio</h3>
                     </Link>
                 </div>
             </div>

@@ -5,3 +5,27 @@
     align-items: center;
     justify-content: center;
    }
+
+   .avasbruaivausrvr{
+       display: flex;
+       flex-direction: column;
+       width: 40%;
+       height: 40%;
+       align-items: center;
+       padding: 10px;
+       justify-content: space-around;
+   }
+   .cursor{
+       cursor: pointer;
+   }
+   .cursornone{
+       cursor:default;
+   }
+
+
+   .sartbgfrgregefgfdsd{
+       padding: 5px;
+       color:white;
+       background-color: #2E9DA0;
+       cursor: pointer;
+    }   

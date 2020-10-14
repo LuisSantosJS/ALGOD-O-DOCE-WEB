@@ -18,6 +18,8 @@ const Add = require('../../assets/add-image.png');
 const Turmas: React.FC = () => {
     const [result, setResult] = useState<Item[]>([]);
     const [modal, setModal] = useState<boolean>(false);
+    const [modal2, setModal2] = useState<boolean>(false);
+    const [itemUpdate, setItemUpdate] = useState<Item>({} as Item)
     const [desc, setDesc] = useState<string>('');
     const { token } = useToken();
     const [anexo, setAnexo] = useState<string>('');
@@ -97,7 +99,42 @@ const Turmas: React.FC = () => {
             transform: 'translate(-50%, -50%)'
         }
     };
-
+    const onUpdate = () => {
+        const valuess = {
+            description: itemUpdate.description,
+            name: itemUpdate.name,
+            imageURL: itemUpdate.imageURL,
+            id: itemUpdate._id
+        }
+        const config = {
+            headers: {
+                'x-access-token': `${token}`
+            }
+        }
+        api.post('/turmas/update', valuess, config).then(res => {
+            if (res.data.message === 'error') {
+                setModal2(false);
+                return addToast(`Ocorreu um erro!`, {
+                    appearance: 'error',
+                    autoDismiss: true,
+                })
+            } else {
+                var news = result.filter(res => res._id !== itemUpdate._id);
+                setResult([...news, itemUpdate]);
+                setModal2(false);
+                return addToast(`Sucesso`, {
+                    appearance: 'success',
+                    autoDismiss: true,
+                })
+            }
+        }).catch(() => {
+            setModal2(false);
+            return addToast(`Ocorreu um erro!`, {
+                appearance: 'error',
+                autoDismiss: true,
+            })
+        })
+    }
     const onDelete = (id: string) => {
         const config = {
             headers: {
@@ -133,7 +170,10 @@ const Turmas: React.FC = () => {
                             <React.Fragment key={res._id}>
                                 <div className='vauibvusir' >
                                     <img src={res.imageURL} height='95%' alt={res.description} />
-                                    <div className='cbakusrycvskV'>
+                                    <div className='cbakusrycvskV cursor' onClick={() => {
+                                        setItemUpdate(res);
+                                        setModal2(true)
+                                    }}>
                                         <h2 className='fnvisunacinsprvs'>{res.name}</h2>
                                         <h5 className='fnvisunacinsprvs'>{res.description}</h5>
                                     </div>
@@ -168,6 +208,26 @@ const Turmas: React.FC = () => {
                     </div>
                     <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Fazer Upload</strong>
                 </form>
+            </Modal>
+
+
+            <Modal
+                isOpen={modal2}
+                onRequestClose={() => setModal2(false)}
+                style={customStyles}
+                appElement={document.getElementById('root') as HTMLElement}
+                contentLabel="Form Modal">
+                <div className='vauibvusir' >
+                    <img src={itemUpdate.imageURL} height='95%' alt={itemUpdate.description} />
+                    <div className='cbakusrycvskV'>
+                        <input value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} className='fnvisunacinsprvs' />
+                        <br />
+                        <input value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} className='fnvisunacinsprvs' />
+                        <br />
+                        <strong onClick={onUpdate} className='sartbgfrgregefgfdsd'>Atualizar Dados</strong>
+                    </div>
+                    <img className='avptiuytdefghjytr cursornone' height='50' src={del} alt="" />
+                </div>
             </Modal>
 
             <div onClick={() => setModal(true)} className="float">
