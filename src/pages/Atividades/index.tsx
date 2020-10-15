@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 import api from '../../service/api';
 import Header from '../../components/Header';
@@ -49,7 +49,7 @@ const Atividades: React.FC = () => {
             }
         }
         api.post('/atividade/update', valuess, config).then(res => {
-            if (res.data.message == 'error') {
+            if (res.data.message === 'error') {
                 setModal(false);
                 return addToast(`Ocorreu um erro!`, {
                     appearance: 'error',

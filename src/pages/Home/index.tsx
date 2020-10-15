@@ -120,7 +120,7 @@ const Home: React.FC = () => {
                     <h1 className="mb-4 pb-0">Bem vindo !<br />escola <span>Algodão</span> Doce</h1>
                     <p className="mb-4 pb-0">Rua São Luiz, nº 225 - Centro - Canoas / RS</p>
                     <a href="https://www.youtube.com/watch?v=mOVnlt7uQXg" className="venobox play-btn mb-4" data-vbtype="video"
-                        data-autoplay="true"></a>
+                        data-autoplay="true" title="Video">.</a>
                     <a href="#about" className="about-btn scrollto">Conheça a nossa escola</a>
                 </div>
             </section>
@@ -444,7 +444,7 @@ const Home: React.FC = () => {
                         </div>
 
                         <div className="form">
-                            <form action="https://formspree.io/xdokenkz" role="form" method='POST' className="php-email-form">
+                            <form action="https://formspree.io/xdokenkz" method='POST' className="php-email-form">
                                 <div className="form-row">
                                     <div className="form-group col-md-6">
                                         <input type="text" name="name" className="form-control" id="name" placeholder="Nome" data-rule="minlen:4"
