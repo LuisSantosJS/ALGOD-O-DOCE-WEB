@@ -8,7 +8,7 @@ import Cardapio from './pages/Cardapio';
 import Galery from './pages/Galery';
 import Portfifolio from './pages/Portifolio';
 import Professores from './pages/Professores';
-import Turmas from './pages/Admin/Turmas';
+import Turmas from './pages/Turmas';
 
 function Routes() {
     const { userSaved } = useUserSaved();

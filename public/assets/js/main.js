@@ -5,7 +5,7 @@
 * License: https://bootstrapmade.com/license/
 */
 !(function($) {
-  "use strict";
+  
 
   // Back to top button
   $(window).scroll(function() {
