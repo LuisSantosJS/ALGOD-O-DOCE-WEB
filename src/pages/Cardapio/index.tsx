@@ -5,6 +5,7 @@ import Header from '../../components/Header';
 import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import { useToken } from '../../context/contextMain';
+import { useTitle } from '../../context/contextHeader'
 // @ts-ignore
 import { mask } from 'remask'
 
@@ -19,6 +20,7 @@ const del = require('../../assets/delete.png');
 const Add = require('../../assets/add-image.png');
 const Cardapio: React.FC = () => {
     const [result, setResult] = useState<Item[]>([]);
+    const { setTitle } = useTitle();
     const [modal, setModal] = useState<boolean>(false);
     const [modal2, setModal2] = useState<boolean>(false);
     const [itemUpdate, setItemUpdate] = useState<Item>({} as Item);
@@ -35,7 +37,12 @@ const Cardapio: React.FC = () => {
             setResult(res.data);
         })
     }, []);
-
+    useEffect(() => {
+        setTitle('Cardápio');
+        return () => {
+            setTitle('Admin');
+        }
+    }, [])
     const onSubmit = () => {
         const config = {
             headers: {

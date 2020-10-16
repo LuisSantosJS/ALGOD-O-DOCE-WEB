@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useUserSaved } from './context/contextMain';
-import Home from './pages/Home/index';
+import Home from './pages/Home';
 import Admin from './pages/Admin';
 import Atividades from './pages/Atividades';
 import Cardapio from './pages/Cardapio';

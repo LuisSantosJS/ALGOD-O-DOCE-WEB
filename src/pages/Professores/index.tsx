@@ -4,6 +4,7 @@ import api from '../../service/api';
 import { useToasts } from 'react-toast-notifications';
 import { useToken } from '../../context/contextMain';
 import Modal from 'react-modal';
+import { useTitle } from '../../context/contextHeader'
 import './styles.css';
 interface Item {
     _id: string,
@@ -23,11 +24,18 @@ const Professores: React.FC = () => {
     const [code, setCode] = useState<string>('');
     const { token } = useToken();
     const { addToast } = useToasts();
+    const { setTitle } = useTitle();
     useEffect(() => {
         api.get('/users/index').then(res => {
             setResult(res.data);
         })
     }, []);
+    useEffect(() => {
+        setTitle('Usuários');
+        return () => {
+            setTitle('Admin')
+        }
+    }, [])
     const customStyles = {
 
         content: {

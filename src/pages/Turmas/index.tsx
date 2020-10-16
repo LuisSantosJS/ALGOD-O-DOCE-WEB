@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import api from '../../service/api';
 import upload, { UPLOAD_URL } from '../../service/upload';
+import { useTitle } from '../../context/contextHeader'
 
 interface Item {
     _id: string,
@@ -19,7 +20,8 @@ const Turmas: React.FC = () => {
     const [result, setResult] = useState<Item[]>([]);
     const [modal, setModal] = useState<boolean>(false);
     const [modal2, setModal2] = useState<boolean>(false);
-    const [itemUpdate, setItemUpdate] = useState<Item>({} as Item)
+    const [itemUpdate, setItemUpdate] = useState<Item>({} as Item);
+    const { setTitle } = useTitle();
     const [desc, setDesc] = useState<string>('');
     const { token } = useToken();
     const [anexo, setAnexo] = useState<string>('');
@@ -31,6 +33,12 @@ const Turmas: React.FC = () => {
         api.get('/turmas/index').then(res => {
             setResult(res.data);
         })
+    }, [])
+    useEffect(() => {
+        setTitle('Turmas');
+        return () => {
+            setTitle('Admin')
+        }
     }, [])
     const onSubmit = () => {
         if (loadingUpload) {
@@ -168,8 +176,8 @@ const Turmas: React.FC = () => {
                     {result.map(res => {
                         return (
                             <React.Fragment key={res._id}>
-                                <div className='vauibvusir' >
-                                    <img src={res.imageURL} height='95%' alt={res.description} />
+                                <div className='vtyuioiuytr'  >
+                                    <img src={res.imageURL} className={'agsbsevaw'} alt={res.description} />
                                     <div className='cbakusrycvskV cursor' onClick={() => {
                                         setItemUpdate(res);
                                         setModal2(true)

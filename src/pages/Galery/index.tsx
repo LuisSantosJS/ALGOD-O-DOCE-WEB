@@ -5,6 +5,7 @@ import { useToasts } from 'react-toast-notifications';
 import upload, { UPLOAD_URL } from '../../service/upload';
 import './styles.css'
 import Modal from 'react-modal';
+import { useTitle } from '../../context/contextHeader'
 import { useToken } from '../../context/contextMain';
 interface Item {
     _id: string,
@@ -40,6 +41,7 @@ const Galery: React.FC = () => {
     const [result, setResult] = useState<Item[]>([]);
     const { token } = useToken();
     const { addToast } = useToasts();
+    const { setTitle } = useTitle();
     const [modal, setModal] = useState<boolean>(false);
     const [modal2, setModal2] = useState<boolean>(false);
     const [anexo, setAnexo] = useState<string>('');
@@ -56,6 +58,13 @@ const Galery: React.FC = () => {
         loadImaes();
 
     }, []);
+
+    useEffect(()=>{
+        setTitle('Galeria');
+        return ()=>{
+            setTitle('Admin');
+        }
+    },[])
     const imgSubmit = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
             setInputName(e.target.files[0].name);
@@ -124,9 +133,9 @@ const Galery: React.FC = () => {
                     autoDismiss: true,
                 })
             } else {
-                const valor = result.filter(res=> res._id !== delItem._id);
+                const valor = result.filter(res => res._id !== delItem._id);
                 setResult(valor);
-                
+
                 addToast(`Sucesso`, {
                     appearance: 'success',
                     autoDismiss: true,
@@ -135,7 +144,7 @@ const Galery: React.FC = () => {
             }
         })
         setModal2(false);
-        
+
     }
     return (
         <>

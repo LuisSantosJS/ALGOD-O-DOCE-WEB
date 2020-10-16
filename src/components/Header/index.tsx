@@ -2,10 +2,12 @@ import React from 'react';
 import { URL } from '../../service/api';
 import { Link } from 'react-router-dom';
 import { useUserSaved, useToken } from '../../context/contextMain';
-
+import { useTitle } from '../../context/contextHeader';
+import './styles.css'
 const Header: React.FC = () => {
     const { userSaved, setUserSaved } = useUserSaved();
     const { setToken } = useToken();
+    const { title } = useTitle();
     const onExit = () => {
         localStorage.clear();
         setToken('');
@@ -17,7 +19,11 @@ const Header: React.FC = () => {
             <header id="header">
                 <div className="container">
                     <div id="logo" className="pull-left">
-                        <div className="scrollto"><img src={`${URL}/assets/img/logo2.png`} alt="" title="" /></div>
+                        <div className="scrollto">
+                            <img src={`${URL}/assets/img/logo2.png`} alt="" title="" />
+                            <br/>
+                            <div className="eceegrere">{title}</div>
+                        </div>
                     </div>
                     <nav id="nav-menu-container">
                         <ul className="nav-menu">
@@ -26,11 +32,12 @@ const Header: React.FC = () => {
                                     Voltar a página inicial
                                 </Link>
                             </li>
-                            {userSaved && <li className="menu-active">
-                                <Link to='/' onClick={onExit} className={'textBashBoard'}>
-                                    Sair
+                            {userSaved && <>
+                                <li className="menu-active">
+                                    <Link to='/' onClick={onExit} className={'textBashBoard'}>
+                                        Sair
                                 </Link>
-                            </li>}
+                                </li></>}
                         </ul>
                     </nav>
                 </div>

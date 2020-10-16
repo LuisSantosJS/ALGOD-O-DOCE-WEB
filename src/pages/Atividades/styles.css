@@ -22,9 +22,47 @@
        cursor:default;
    }
 
+   .vtyuioiuytr{
+    justify-content: space-around;
+    height: 350px;
+    width: 80vw;
+    display: flex;
+    align-items: center;
+    background-color: #E5E5E5;
+    flex-direction: row;
+    padding: 40px;
+   }
+   .centersssssss{
+       display: flex;
+       align-items: center;
+       justify-content: center;
+   }
+
+   .agsbsevaw{
+       height:95%;
+   }
+
+   @media screen and (max-width: 500px) {
+    .agsbsevaw{
+        height:35%;
+    }
+    .vtyuioiuytr{
+        justify-content: space-around;
+        height: 500px;
+        display: flex;
+    
+        align-items: center;
+        background-color: #E5E5E5;
+        flex-direction: column;
+        padding: 40px;
+       }
+ 
+   }
+
 
    .sartbgfrgregefgfdsd{
        padding: 5px;
+       width: 100px;
        color:white;
        background-color: #2E9DA0;
        cursor: pointer;

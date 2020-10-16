@@ -14,9 +14,10 @@
     align-items: center;
     background-color: #E5E5E5;
     justify-content: space-around;
-    flex-direction: row-reverse;
+    flex-direction: column-reverse;
     padding: 30px;
 }
+
 
 .asiyvgoclvyosueyt{
     display: flex;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './styles.css';
 import api from '../../service/api';
 import Header from '../../components/Header';
+import { useTitle } from '../../context/contextHeader';
 import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import { useToken } from '../../context/contextMain';
@@ -20,6 +21,8 @@ const del = require('../../assets/delete.png');
 const Add = require('../../assets/add-image.png');
 const Atividades: React.FC = () => {
 
+
+    const { setTitle } = useTitle();
     const [result, setResult] = useState<Item[]>([]);
     const [modal, setModal] = useState<boolean>(false);
     const [modal2, setModal2] = useState<boolean>(false);
@@ -33,6 +36,12 @@ const Atividades: React.FC = () => {
     const [name, setName] = useState<string>('');
     const [initialDate, setInitialDate] = useState<string>('');
     const [endDate, setEndDate] = useState<string>('');
+    useEffect(() => {
+        setTitle('Atividades');
+        return () => {
+            setTitle('Admin');
+        }
+    }, [])
 
     const onUpdate = () => {
         const valuess = {
@@ -94,10 +103,11 @@ const Atividades: React.FC = () => {
                 setAnexo(`${UPLOAD_URL}${res.data.res}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUpload(false);
-                addToast(`Fomulário pronto para ser finalizado!`, {
+                addToast(`Atividade pronta para ser criada!`, {
                     appearance: 'info',
                     autoDismiss: true,
                 })
+
             }).catch(res => console.log(res))
         }
     }
@@ -124,7 +134,7 @@ const Atividades: React.FC = () => {
             const data: Item = res.data;
             setResult([...result, data]);
             setModal2(false);
-            addToast(`Imagem enviada com sucesso!`, {
+            addToast(`Atividade criada com successo!`, {
                 appearance: 'success',
                 autoDismiss: true,
             })
@@ -180,29 +190,30 @@ const Atividades: React.FC = () => {
             <Header />
             <main id="main">
                 <div className="spacingviewbash" />
+                <div className="viewContainercsrvu6">
 
 
-                {result.map(res => {
-                    return (
-                        <React.Fragment key={res._id}>
-                            <div className='vauibvusir' >
-                                <img src={res.imageURL} height='95%' alt={res.description} />
-                                <div className='cbakusrycvskV avasbruaivausrvr cursor' onClick={() => {
-                                    setModal(true);
-                                    setItemUpdate(res);
-                                }}>
-                                    <h2 className='fnvisunacinsprvs'>{res.name}</h2>
-                                    <h5 className='fnvisunacinsprvs'>{res.description}</h5>
-                                    <h6 className='fnvisunacinsprvs'>{res.initialDate} - {res.endDate}</h6>
+                    {result.map(res => {
+                        return (
+                            <React.Fragment key={res._id}>
+                                <div className='vtyuioiuytr'  >
+                                    <img src={res.imageURL} className={'agsbsevaw'} alt={res.description} />
+                                    <div className='cbakusrycvskV avasbruaivausrvr cursor' onClick={() => {
+                                        setModal(true);
+                                        setItemUpdate(res);
+                                    }}>
+                                        <h2 className='fnvisunacinsprvs'>{res.name}</h2>
+                                        <h5 className='fnvisunacinsprvs'>{res.description}</h5>
+                                        <h6 className='fnvisunacinsprvs'>{res.initialDate} - {res.endDate}</h6>
+                                    </div>
+                                    <img onClick={() => onDelete(res._id)} className='avptiuytdefghjytr' height='50' src={del} alt="" />
                                 </div>
-                                <img onClick={() => onDelete(res._id)} className='avptiuytdefghjytr' height='50' src={del} alt="" />
-                            </div>
-                            <br />
-                            <br />
-                        </React.Fragment>
-                    )
-                })}
-
+                                <br />
+                                <br />
+                            </React.Fragment>
+                        )
+                    })}
+                </div>
 
             </main>
             <Modal
@@ -225,7 +236,7 @@ const Atividades: React.FC = () => {
                             <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
                         </div>
                     </div>
-                    <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Fazer Upload</strong>
+                    <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Adicionar Atividade</strong>
                 </form>
             </Modal>
 
@@ -236,8 +247,8 @@ const Atividades: React.FC = () => {
                 style={customStyles}
                 appElement={document.getElementById('root') as HTMLElement}
                 contentLabel="Form Modal">
-                <div className='vauibvusir'>
-                    <img src={itemUpdate.imageURL} height='95%' alt={itemUpdate.description} />
+                <div className='vtyuioiuytr'  >
+                    <img src={itemUpdate.imageURL} className={'agsbsevaw'} alt={itemUpdate.description} />
                     <div className='avasbruaivausrvr'>
                         <input value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
                         <br />
@@ -247,9 +258,9 @@ const Atividades: React.FC = () => {
                         <br />
                         <input value={itemUpdate.endDate} onChange={(e) => setItemUpdate({ ...itemUpdate, endDate: e.target.value })} />
                         <br />
-                        <strong onClick={onUpdate} className='sartbgfrgregefgfdsd'>Atualizar Dados</strong>
+                        <strong onClick={onUpdate} className='vjanltjviurytrhbnkc'>Atualizar Dados</strong>
                     </div>
-                    <img className='avptiuytdefghjytr cursornone' height='50' src={del} alt="" />
+
                 </div>
 
             </Modal>

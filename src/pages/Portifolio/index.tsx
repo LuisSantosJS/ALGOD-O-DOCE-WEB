@@ -5,6 +5,7 @@ import { useToken } from '../../context/contextMain';
 import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import api from '../../service/api';
+import { useTitle } from '../../context/contextHeader'
 import upload, { UPLOAD_URL } from '../../service/upload';
 
 interface Item {
@@ -20,6 +21,7 @@ const Portifolio: React.FC = () => {
     const [modal, setModal] = useState<boolean>(false);
     const [modal2, setModal2] = useState<boolean>(false);
     const [itemUpdate, setItemUpdate] = useState<Item>({} as Item);
+    const { setTitle } = useTitle();
 
     const [desc, setDesc] = useState<string>('');
     const { token } = useToken();
@@ -32,6 +34,12 @@ const Portifolio: React.FC = () => {
         api.get('/portifolio/index').then(res => {
             setResult(res.data);
         })
+    }, []);
+    useEffect(() => {
+        setTitle('Portifólio');
+        return () => {
+            setTitle('Admin')
+        }
     }, [])
     const onSubmit = () => {
         if (loadingUpload) {

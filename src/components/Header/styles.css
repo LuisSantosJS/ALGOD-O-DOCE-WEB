@@ -1,0 +1,14 @@
+
+
+.eceegrere{
+    display: flex;
+    height: 100%;
+    width: 90%;
+    padding: 2px;
+    border-radius:10px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+    background-color:  #5fbae9;
+    color: white;
+}

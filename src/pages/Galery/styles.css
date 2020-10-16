@@ -126,18 +126,21 @@ justify-content: space-around;
 }
 
 .vjanltjviurytrhbnkc{
-    display: flex;
-    width: 70%;
+    width:100px;
    background-color: #2E9DA0;
    padding: 10px;
-   align-items: center;
-   justify-content: center;
    color: white;
    border-radius: 5px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
 }
 .vjanltjviurytrhbnkc:hover{
+
     background-color:#2E9D80;
     cursor: pointer;
+
 }
 
 .btbyfhnbfe{
