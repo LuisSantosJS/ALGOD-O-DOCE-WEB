@@ -31,6 +31,7 @@ const Atividades: React.FC = () => {
     const [anexo, setAnexo] = useState<string>('');
     const { addToast } = useToasts();
     const [loadingUpload, setLoadingUpload] = useState<boolean>(true);
+    const [loadingUploadUpdate, setLoadingUploadUpdate] = useState<boolean>(true);
     const [inputName, setInputName] = useState<string>('Selecionar foto');
     const [desc, setDesc] = useState<string>('');
     const [name, setName] = useState<string>('');
@@ -44,6 +45,12 @@ const Atividades: React.FC = () => {
     }, [])
 
     const onUpdate = () => {
+        if (loadingUploadUpdate) {
+            return addToast(`Aguarde! fazendo upload da imagem...`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
         const valuess = {
             description: itemUpdate.description,
             name: itemUpdate.name,
@@ -104,6 +111,31 @@ const Atividades: React.FC = () => {
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUpload(false);
                 addToast(`Atividade pronta para ser criada!`, {
+                    appearance: 'info',
+                    autoDismiss: true,
+                })
+
+            }).catch(res => console.log(res))
+        }
+    }
+
+    const imgUpdate = (e: any) => {
+        if (String(e.target.files[0].name).length !== 0) {
+            setInputName(e.target.files[0].name);
+            let formData = new FormData();
+            // console.log('image:', e.target.files[0])
+            formData.append('anexo', e.target.files[0]);
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+            upload.post('/upload/anexo', formData, config).then(res => {
+                setItemUpdate({ ...itemUpdate, imageURL: `${UPLOAD_URL}${res.data.res}` })
+                //setAnexo(`${UPLOAD_URL}${res.data.res}`);
+                // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
+                setLoadingUploadUpdate(false);
+                addToast(`Atividade pronta para atualizada`, {
                     appearance: 'info',
                     autoDismiss: true,
                 })
@@ -191,8 +223,6 @@ const Atividades: React.FC = () => {
             <main id="main">
                 <div className="spacingviewbash" />
                 <div className="viewContainercsrvu6">
-
-
                     {result.map(res => {
                         return (
                             <React.Fragment key={res._id}>
@@ -250,14 +280,21 @@ const Atividades: React.FC = () => {
                 <div className='vtyuioiuytr'  >
                     <img src={itemUpdate.imageURL} className={'agsbsevaw'} alt={itemUpdate.description} />
                     <div className='avasbruaivausrvr'>
-                        <input value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
-                        <br />
-                        <input value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
-                        <br />
-                        <input value={itemUpdate.initialDate} onChange={(e) => setItemUpdate({ ...itemUpdate, initialDate: e.target.value })} />
-                        <br />
-                        <input value={itemUpdate.endDate} onChange={(e) => setItemUpdate({ ...itemUpdate, endDate: e.target.value })} />
-                        <br />
+                        <input className="input-group mb-3" value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
+              
+                        <input className="input-group mb-3" value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
+
+                        <input className="input-group mb-3" value={itemUpdate.initialDate} onChange={(e) => setItemUpdate({ ...itemUpdate, initialDate: e.target.value })} />
+        
+                        <input className="input-group mb-3" value={itemUpdate.endDate} onChange={(e) => setItemUpdate({ ...itemUpdate, endDate: e.target.value })} />
+                
+                        <div className="input-group mb-3">
+                            <div className="custom-file">
+                                <input type="file" onChange={(e: any) => imgUpdate(e)} className="custom-file-input btbyfhnbfe" id="inputGroupFile01" />
+                                <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
+                            </div>
+                        </div>
+              
                         <strong onClick={onUpdate} className='vjanltjviurytrhbnkc'>Atualizar Dados</strong>
                     </div>
 
