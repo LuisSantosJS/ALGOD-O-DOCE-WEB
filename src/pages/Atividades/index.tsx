@@ -114,6 +114,11 @@ const Atividades: React.FC = () => {
                     appearance: 'info',
                     autoDismiss: true,
                 })
+                addToast(`Pressione no botão criar atividade`, {
+                    appearance: 'info',
+                    autoDismiss: true,
+                })
+                
 
             }).catch(res => console.log(res))
         }
@@ -135,7 +140,11 @@ const Atividades: React.FC = () => {
                 //setAnexo(`${UPLOAD_URL}${res.data.res}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUploadUpdate(false);
-                addToast(`Atividade pronta para atualizada`, {
+                addToast(`Atividade pronta para atualizada!`, {
+                    appearance: 'info',
+                    autoDismiss: true,
+                })
+                addToast(`Pressione no botão atualizar dados!`, {
                     appearance: 'info',
                     autoDismiss: true,
                 })

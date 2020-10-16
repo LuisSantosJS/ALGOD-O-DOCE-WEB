@@ -31,6 +31,7 @@
     height: 50vh;
     width: 100vw;
     align-items: center;
+    text-decoration:none;
     justify-content: space-around;
     flex-direction: row;
 }
@@ -38,12 +39,15 @@
 .aovartre{
     color: white;
     font-weight: bold;
+    text-decoration:none;
+
 }
 
 
 .itemBash{
     display: flex;
     cursor: pointer;
+    text-decoration:none;
     align-items: center;
     flex-direction: column;
     justify-content: space-around;

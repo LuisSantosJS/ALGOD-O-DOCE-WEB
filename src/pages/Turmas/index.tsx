@@ -27,6 +27,7 @@ const Turmas: React.FC = () => {
     const [anexo, setAnexo] = useState<string>('');
     const { addToast } = useToasts();
     const [loadingUpload, setLoadingUpload] = useState<boolean>(true);
+    const [loadingUploadUpdate, setLoadingUploadUpdate] = useState<boolean>(true);
     const [name, setName] = useState<string>('');
     const [inputName, setInputName] = useState<string>('Selecione uma imagem');
     useEffect(() => {
@@ -61,7 +62,7 @@ const Turmas: React.FC = () => {
             const data: Item = res.data;
             setResult([...result, data]);
             setModal(false);
-            addToast(`Imagem enviada com sucesso!`, {
+            addToast(`Turma criada com sucesso!`, {
                 appearance: 'success',
                 autoDismiss: true,
             })
@@ -88,7 +89,11 @@ const Turmas: React.FC = () => {
                 setAnexo(`${UPLOAD_URL}${res.data.res}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUpload(false);
-                addToast(`Fomulário pronto para ser finalizado!`, {
+                addToast(`Turma pronta para ser criada!`, {
+                    appearance: 'info',
+                    autoDismiss: true,
+                })
+                addToast(`Pressione no botão adicionar turma!`, {
                     appearance: 'info',
                     autoDismiss: true,
                 })
@@ -96,6 +101,33 @@ const Turmas: React.FC = () => {
         }
     }
 
+    const imgUpdate = (e: any) => {
+        if (String(e.target.files[0].name).length !== 0) {
+            setInputName(e.target.files[0].name);
+            let formData = new FormData();
+            // console.log('image:', e.target.files[0])
+            formData.append('anexo', e.target.files[0]);
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+            upload.post('/upload/anexo', formData, config).then(res => {
+                setItemUpdate({ ...itemUpdate, imageURL: `${UPLOAD_URL}${res.data.res}` });
+                // setAnexo(`${UPLOAD_URL}${res.data.res}`);
+                // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
+                setLoadingUploadUpdate(false);
+                addToast(`Turma pronta para ser atualizada!`, {
+                    appearance: 'info',
+                    autoDismiss: true,
+                })
+                addToast(`Pressione no botão atualizar dados`, {
+                    appearance: 'info',
+                    autoDismiss: true,
+                })
+            }).catch(res => console.log(res))
+        }
+    }
     const customStyles = {
 
         content: {
@@ -108,6 +140,13 @@ const Turmas: React.FC = () => {
         }
     };
     const onUpdate = () => {
+
+        if (loadingUploadUpdate) {
+            return addToast(`Aguarde! fazendo upload da imagem...`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
         const valuess = {
             description: itemUpdate.description,
             name: itemUpdate.name,
@@ -214,7 +253,7 @@ const Turmas: React.FC = () => {
                             <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
                         </div>
                     </div>
-                    <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Fazer Upload</strong>
+                    <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Adicionar Turma</strong>
                 </form>
             </Modal>
 
@@ -225,16 +264,19 @@ const Turmas: React.FC = () => {
                 style={customStyles}
                 appElement={document.getElementById('root') as HTMLElement}
                 contentLabel="Form Modal">
-                <div className='vauibvusir' >
-                    <img src={itemUpdate.imageURL} height='95%' alt={itemUpdate.description} />
+                <div className='vtyuioiuytr'  >
+                    <img src={itemUpdate.imageURL} className={'agsbsevaw'} alt={itemUpdate.description} />
                     <div className='cbakusrycvskV'>
-                        <input value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} className='fnvisunacinsprvs' />
-                        <br />
-                        <input value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} className='fnvisunacinsprvs' />
-                        <br />
-                        <strong onClick={onUpdate} className='sartbgfrgregefgfdsd'>Atualizar Dados</strong>
+                        <input className="input-group mb-3" value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
+                        <input className="input-group mb-3" value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
+                        <div className="input-group mb-3">
+                            <div className="custom-file">
+                                <input type="file" onChange={(e: any) => imgUpdate(e)} className="custom-file-input btbyfhnbfe" id="inputGroupFile01" />
+                                <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
+                            </div>
+                        </div>
+                        <strong onClick={onUpdate} className='vjanltjviurytrhbnkc'>Atualizar Dados</strong>
                     </div>
-                    <img className='avptiuytdefghjytr cursornone' height='50' src={del} alt="" />
                 </div>
             </Modal>
 
