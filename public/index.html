@@ -72,7 +72,9 @@
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
+  <div id="root">
+
+  </div>
   <script src="assets/vendor/jquery/jquery.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
@@ -242,29 +244,7 @@
           }
         });
       });
-
-      // Gallery carousel (uses the Owl Carousel library)
-      $(".gallery-carousel").owlCarousel({
-        autoplay: true,
-        dots: true,
-        loop: true,
-        center: true,
-        responsive: {
-          0: {
-            items: 1
-          },
-          768: {
-            items: 3
-          },
-          992: {
-            items: 4
-          },
-          1200: {
-            items: 5
-          }
-        }
-      });
-
+      
       // Buy tickets select the ticket type on click
       $('#buy-ticket-modal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);
@@ -277,11 +257,32 @@
       function aos_init() {
         AOS.init({
           duration: 1000,
-          once: true
+          once: false
         });
       }
       $(window).on('load', function() {
         aos_init();
+        // Gallery carousel (uses the Owl Carousel library)
+        $(".gallery-carousel").owlCarousel({
+          autoplay: true,
+          dots: true,
+          loop: true,
+          center: true,
+          responsive: {
+            0: {
+              items: 1
+            },
+            768: {
+              items: 3
+            },
+            992: {
+              items: 4
+            },
+            1200: {
+              items: 5
+            }
+          }
+        });
       }); 
     });
   </script>
