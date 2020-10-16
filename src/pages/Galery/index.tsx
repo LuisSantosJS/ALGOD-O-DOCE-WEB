@@ -80,7 +80,11 @@ const Galery: React.FC = () => {
                 setAnexo(`${UPLOAD_URL}${res.data.res}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUpload(false);
-                addToast(`Fomulário pronto para ser finalizado!`, {
+                addToast(`Imagem pronta para ser finalizada!`, {
+                    appearance: 'info',
+                    autoDismiss: true,
+                })
+                addToast(`Pressione o botão enviar imagem!`, {
                     appearance: 'info',
                     autoDismiss: true,
                 })
@@ -185,7 +189,7 @@ const Galery: React.FC = () => {
                             <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
                         </div>
                     </div>
-                    <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Fazer Upload</strong>
+                    <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Enviar Imagen</strong>
                 </form>
             </Modal>
 
