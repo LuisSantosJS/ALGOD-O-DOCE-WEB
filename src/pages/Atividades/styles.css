@@ -23,14 +23,14 @@
    }
 
    .vtyuioiuytr{
-    justify-content: space-around;
-    height: 400px;
-    width: 80vw;
-    display: flex;
-    align-items: center;
-    background-color: #E5E5E5;
-    flex-direction: row;
-    padding: 40px;
+        justify-content: space-around;
+        height: 400px;
+        width: 80vw;
+        display: flex;
+        align-items: center;
+        background-color: #E5E5E5;
+        flex-direction: row;
+        padding: 40px;
    }
    .centersssssss{
        display: flex;
@@ -39,10 +39,10 @@
    }
 
    .agsbsevaw{
-       height:95%;
+       height:70%;
    }
 
-   @media screen and (max-width: 500px) {
+   @media screen and (max-width: 600px) {
     .agsbsevaw{
         height:35%;
     }
