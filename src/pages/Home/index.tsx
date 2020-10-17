@@ -148,7 +148,7 @@ const Home: React.FC = () => {
                         Rua São Luiz, nº 225 - Centro - Canoas / RS
                     </p>
                     <a
-                        href="https://www.youtube.com/watch?v=mOVnlt7uQXg"
+                        href="https://youtu.be/3HqrN79_NVg"
                         className="venobox play-btn mb-4"
                         data-vbtype="video"
                         data-autoplay="true"
@@ -397,7 +397,7 @@ const Home: React.FC = () => {
                                         className="embed-responsive-item"
                                         width="750"
                                         height="422"
-                                        src="https://www.youtube.com/embed/mOVnlt7uQXg"
+                                        src="https://www.youtube.com/embed/3HqrN79_NVg"
                                         frameBorder={0}
                                         allowFullScreen
                                     />
