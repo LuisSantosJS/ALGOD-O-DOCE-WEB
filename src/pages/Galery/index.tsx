@@ -77,7 +77,7 @@ const Galery: React.FC = () => {
                 }
             }
             upload.post('/upload/anexo', formData, config).then(res => {
-                setAnexo(`${UPLOAD_URL}${res.data.res}`);
+                setAnexo(`${res.data.res}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUpload(false);
                 addToast(`Imagem pronta para ser finalizada!`, {

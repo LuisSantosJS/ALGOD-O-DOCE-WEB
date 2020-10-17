@@ -86,7 +86,7 @@ const Turmas: React.FC = () => {
                 }
             }
             upload.post('/upload/anexo', formData, config).then(res => {
-                setAnexo(`${UPLOAD_URL}${res.data.res}`);
+                setAnexo(`${res.data.res}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUpload(false);
                 addToast(`Turma pronta para ser criada!`, {
@@ -113,7 +113,7 @@ const Turmas: React.FC = () => {
                 }
             }
             upload.post('/upload/anexo', formData, config).then(res => {
-                setItemUpdate({ ...itemUpdate, imageURL: `${UPLOAD_URL}${res.data.res}` });
+                setItemUpdate({ ...itemUpdate, imageURL: `${res.data.res}` });
                 // setAnexo(`${UPLOAD_URL}${res.data.res}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUploadUpdate(false);
