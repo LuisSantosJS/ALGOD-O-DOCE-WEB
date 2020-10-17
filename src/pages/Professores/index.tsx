@@ -130,13 +130,13 @@ const Professores: React.FC = () => {
                     {result.map(res => {
                         return (
                             <React.Fragment key={res._id}>
-                                <div className='abatdyuterty'  >
+                                <div className='vtyuioiuytr'  >
                                     <div className='carajhghjkcasrv cursor' onClick={() => {
                                         setItemUpdate(res);
                                         setModal2(true)
                                     }}>
                                         <h2 className='vstrert'>{res.name}</h2>
-                                        <h4 className='vstrert'>{res.email}</h4>
+                                        <h5 className='vstrert'>{res.email}</h5>
                                     </div>
 
                                     <img src={del} onClick={() => onDelete(res._id)} className='as' height='40' alt="delete" />
@@ -159,11 +159,11 @@ const Professores: React.FC = () => {
                 <form onSubmit={onSubmit} className='formsss' encType='multipart/form-data'>
                     <div className='rowss' >
                         {/* <label htmlFor="lname"> Descrição</label> */}
-                        <input className={'inpstshome'} value={name} onChange={(e) => setName(e.target.value)} placeholder="Insira um nome˜" type="text" />
+                        <input className={'inpstshome'} value={name} onChange={(e) => setName(e.target.value)} placeholder="Insira um nome" type="text" />
                         <input className={'inpstshome'} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Insira um email" type="text" />
                         <input className={'inpstshome'} value={code} onChange={(e) => setCode(e.target.value)} placeholder="Insira uma senha" type="text" />
                     </div>
-                    <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Fazer Upload</strong>
+                    <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Criar usuário</strong>
                 </form>
             </Modal>
 
@@ -177,7 +177,7 @@ const Professores: React.FC = () => {
                 <div className='carusyuiuytfbnm'>
                     <input value={ItemUpdate.name} onChange={(e) => setItemUpdate({ ...ItemUpdate, name: e.target.value })} />
                     <input value={newPassoword} onChange={(e) => setNewPassword(e.target.value)} placeholder={'Nova senha'} />
-                    <strong onClick={onUpdate} className='vjanltjviurytrhbnkc' >Atualizar</strong>
+                    <strong onClick={onUpdate} className='vjanltjviurytrhbnkc' >Atualizar Usuário</strong>
                 </div>
             </Modal>
             <div onClick={() => setModal(true)} className="float">
