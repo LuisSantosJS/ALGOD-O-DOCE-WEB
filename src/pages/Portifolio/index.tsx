@@ -142,6 +142,12 @@ const Portifolio: React.FC = () => {
 
 
     const onUpdate = () => {
+        if (loadingUploadUpdate) {
+            return addToast(`Aguarde! fazendo upload da imagem...`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
         const valuess = {
             name: itemUpdate.name,
             description: itemUpdate.description,
