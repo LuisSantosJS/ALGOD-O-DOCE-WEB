@@ -14,6 +14,7 @@
     "axios": "^0.20.0",
     "bootstrap": "^4.5.3",
     "email-validator": "^2.0.4",
+    "is-valid-date": "0.0.1",
     "jquery": "^3.5.1",
     "owl.carousel": "^2.3.4",
     "react": "^16.13.1",

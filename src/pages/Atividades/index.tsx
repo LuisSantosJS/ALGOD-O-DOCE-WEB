@@ -6,6 +6,7 @@ import { useTitle } from '../../context/contextHeader';
 import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import { useToken } from '../../context/contextMain';
+
 // @ts-ignore
 import { mask } from 'remask'
 import upload, { UPLOAD_URL } from '../../service/upload'
@@ -45,12 +46,35 @@ const Atividades: React.FC = () => {
     }, [])
 
     const onUpdate = () => {
+        const a = endDate.split('/')
+        const b = initialDate.split('/')
+        if ((Number(a[0]) >= 32) || (Number(b[0]) >= 32)) {
+            return addToast(`Insira somente datas válidas`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+        if ((Number(a[1]) >= 13) || (Number(b[1]) >= 13)) {
+            return addToast(`Insira somente datas válidas`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+        if ((Number(a[2]) < 2020) || (Number(b[1]) < 2020)) {
+            return addToast(`Insira somente datas válidas`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+
         if (loadingUploadUpdate) {
             return addToast(`Aguarde! fazendo upload da imagem...`, {
                 appearance: 'info',
                 autoDismiss: true,
             })
         }
+
+
         const valuess = {
             description: itemUpdate.description,
             name: itemUpdate.name,
@@ -118,7 +142,7 @@ const Atividades: React.FC = () => {
                     appearance: 'info',
                     autoDismiss: true,
                 })
-                
+
 
             }).catch(res => console.log(res))
         }
@@ -153,12 +177,36 @@ const Atividades: React.FC = () => {
         }
     }
     const onSubmit = () => {
+        const a = endDate.split('/')
+        const b = initialDate.split('/')
+        if ((Number(a[0]) >= 32) || (Number(b[0]) >= 32)) {
+            return addToast(`Insira somente datas válidas`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+        if ((Number(a[1]) >= 13) || (Number(b[1]) >= 13)) {
+            return addToast(`Insira somente datas válidas`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+        if ((Number(a[2]) < 2020) || (Number(b[1]) < 2020)) {
+            return addToast(`Insira somente datas válidas`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+
         if (loadingUpload) {
             return addToast(`Aguarde! fazendo upload da imagem...`, {
                 appearance: 'info',
                 autoDismiss: true,
             })
         }
+
+
+
         const config = {
             headers: {
                 'x-access-token': `${token}`
@@ -290,20 +338,20 @@ const Atividades: React.FC = () => {
                     <img src={itemUpdate.imageURL} className={'agsbsevaw'} alt={itemUpdate.description} />
                     <div className='avasbruaivausrvr'>
                         <input className="input-group mb-3" value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
-              
+
                         <input className="input-group mb-3" value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
 
                         <input className="input-group mb-3" value={itemUpdate.initialDate} onChange={(e) => setItemUpdate({ ...itemUpdate, initialDate: e.target.value })} />
-        
+
                         <input className="input-group mb-3" value={itemUpdate.endDate} onChange={(e) => setItemUpdate({ ...itemUpdate, endDate: e.target.value })} />
-                
+
                         <div className="input-group mb-3">
                             <div className="custom-file">
                                 <input type="file" onChange={(e: any) => imgUpdate(e)} className="custom-file-input btbyfhnbfe" id="inputGroupFile01" />
                                 <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
                             </div>
                         </div>
-              
+
                         <strong onClick={onUpdate} className='vjanltjviurytrhbnkc'>Atualizar Dados</strong>
                     </div>
 
