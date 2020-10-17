@@ -60,7 +60,7 @@ const Atividades: React.FC = () => {
                 autoDismiss: true,
             })
         }
-        if ((Number(a[2]) < 2020) || (Number(b[1]) < 2020)) {
+        if ((Number(a[2]) < 2020) || (Number(b[2]) < 2020)) {
             return addToast(`Insira somente datas válidas (ano)`, {
                 appearance: 'info',
                 autoDismiss: true,
