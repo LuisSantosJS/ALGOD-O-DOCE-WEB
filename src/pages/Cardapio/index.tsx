@@ -64,7 +64,7 @@ const Cardapio: React.FC = () => {
         return () => {
             setTitle('Admin');
         }
-    }, [])
+    }, [setTitle])
     const onSubmit = () => {
         const a = date.split('/')
 
@@ -304,12 +304,12 @@ const Cardapio: React.FC = () => {
                         <React.Fragment key={res._id}>
                             <div className='vauibvusir' >
 
-                                <a onClick={(e) => {
+                                <strong  onClick={(e) => {
                                     e.preventDefault();
                                     window.open(`${res.anexo}`, '_blank')
-                                }} className='cbakusrycvskV' href={''}>
+                                }} className='cbakusrycvskV cursor'>
                                     <img height='70%' src={Anexo} alt="anexo" />
-                                </a>
+                                </strong>
 
                                 <div className='cbakusrycvskV cursor' onClick={() => {
                                     setItemUpdate(res);

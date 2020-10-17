@@ -35,7 +35,7 @@ const Professores: React.FC = () => {
         return () => {
             setTitle('Admin')
         }
-    }, [])
+    }, [setTitle])
     const customStyles = {
 
         content: {

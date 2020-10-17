@@ -64,7 +64,7 @@ const Galery: React.FC = () => {
         return ()=>{
             setTitle('Admin');
         }
-    },[])
+    }, [setTitle])
     const imgSubmit = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
             setInputName(e.target.files[0].name);

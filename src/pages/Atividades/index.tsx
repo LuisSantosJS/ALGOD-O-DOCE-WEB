@@ -43,7 +43,7 @@ const Atividades: React.FC = () => {
         return () => {
             setTitle('Admin');
         }
-    }, [])
+    }, [setTitle])
 
     const onUpdate = () => {
         const a = itemUpdate.endDate.split('/')

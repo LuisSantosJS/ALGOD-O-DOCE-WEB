@@ -41,7 +41,7 @@ const Portifolio: React.FC = () => {
         return () => {
             setTitle('Admin')
         }
-    }, [])
+    }, [setTitle])
     const onSubmit = () => {
         if (loadingUpload) {
             return addToast(`Aguarde! fazendo upload da imagem...`, {
