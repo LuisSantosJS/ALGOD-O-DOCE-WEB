@@ -5,7 +5,7 @@ import Header from '../../components/Header';
 import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import { useToken } from '../../context/contextMain';
-import upload, { UPLOAD_URL } from '../../service/upload';
+import upload from '../../service/upload';
 import { useTitle } from '../../context/contextHeader';
 // @ts-ignore
 import { mask } from 'remask'

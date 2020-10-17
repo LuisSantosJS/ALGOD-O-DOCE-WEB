@@ -5,7 +5,7 @@ import { useToken } from '../../context/contextMain';
 import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import api from '../../service/api';
-import upload, { UPLOAD_URL } from '../../service/upload';
+import upload from '../../service/upload';
 import { useTitle } from '../../context/contextHeader'
 
 interface Item {

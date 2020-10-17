@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import api from '../../service/api';
 import { useToasts } from 'react-toast-notifications';
-import upload, { UPLOAD_URL } from '../../service/upload';
+import upload  from '../../service/upload';
 import './styles.css'
 import Modal from 'react-modal';
 import { useTitle } from '../../context/contextHeader'

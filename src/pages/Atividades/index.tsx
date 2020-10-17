@@ -9,7 +9,7 @@ import { useToken } from '../../context/contextMain';
 
 // @ts-ignore
 import { mask } from 'remask'
-import upload, { UPLOAD_URL } from '../../service/upload'
+import upload  from '../../service/upload'
 interface Item {
     _id: string,
     description: string,

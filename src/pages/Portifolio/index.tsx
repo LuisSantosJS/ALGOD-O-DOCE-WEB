@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import api from '../../service/api';
 import { useTitle } from '../../context/contextHeader'
-import upload, { UPLOAD_URL } from '../../service/upload';
+import upload from '../../service/upload';
 
 interface Item {
     _id: string,
