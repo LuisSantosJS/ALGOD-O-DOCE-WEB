@@ -5,7 +5,8 @@ import Header from '../../components/Header';
 import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import { useToken } from '../../context/contextMain';
-import { useTitle } from '../../context/contextHeader'
+import upload, { UPLOAD_URL } from '../../service/upload';
+import { useTitle } from '../../context/contextHeader';
 // @ts-ignore
 import { mask } from 'remask'
 
@@ -14,17 +15,23 @@ interface Item {
     description: string,
     name: string,
     data: string,
+    anexo: string
 
 }
 const del = require('../../assets/delete.png');
 const Add = require('../../assets/add-image.png');
+const Anexo = require('../../assets/anexo.png');
 const Cardapio: React.FC = () => {
     const [result, setResult] = useState<Item[]>([]);
     const { setTitle } = useTitle();
+    const [inputName, setInputName] = useState<string>('Selecione um anexo')
     const [modal, setModal] = useState<boolean>(false);
     const [modal2, setModal2] = useState<boolean>(false);
     const [itemUpdate, setItemUpdate] = useState<Item>({} as Item);
     const { token } = useToken();
+    const [loadingUpload, setLoadingUpload] = useState<boolean>(true);
+    const [loadingUploadUpdate, setLoadingUploadUpdate] = useState<boolean>(true);
+    const [anexo, setAnexo] = useState<string>('');
 
     const { addToast } = useToasts();
 
@@ -44,6 +51,34 @@ const Cardapio: React.FC = () => {
         }
     }, [])
     const onSubmit = () => {
+        const a = date.split('/')
+
+        if ((Number(a[0]) >= 32) || (Number(a[0]) === 0)) {
+            return addToast(`Insira somente datas válidas (dia)`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+        if ((Number(a[1]) >= 13) || (Number(a[1]) === 0)) {
+            return addToast(`Insira somente datas válidas (mês)`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+        if (Number(a[2]) < 2020) {
+            return addToast(`Insira somente datas válidas (ano)`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+        if (loadingUpload) {
+            return addToast(`Aguarde! fazendo upload da imagem...`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+
+
         const config = {
             headers: {
                 'x-access-token': `${token}`
@@ -53,6 +88,7 @@ const Cardapio: React.FC = () => {
             description: String(desc),
             name: String(name),
             data: String(date),
+            anexo: String(anexo)
 
         }, config).then(res => {
             console.log(res.data)
@@ -111,12 +147,43 @@ const Cardapio: React.FC = () => {
     };
 
     const onUpdate = () => {
+        const a = itemUpdate.data.split('/');
+
+
+        if ((Number(a[0]) >= 32) || (Number(a[0]) === 0)) {
+            return addToast(`Insira somente datas válidas (dia)`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+        if ((Number(a[1]) >= 13) || (Number(a[1]) === 0)) {
+            return addToast(`Insira somente datas válidas (mês)`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+        if (Number(a[2]) < 2020) {
+            return addToast(`Insira somente datas válidas (ano)`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+
+        if (loadingUploadUpdate) {
+            return addToast(`Aguarde! fazendo upload da imagem...`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+
+
         const valuess = {
 
             name: itemUpdate.name,
             description: itemUpdate.description,
             data: itemUpdate.data,
-            id: itemUpdate._id
+            id: itemUpdate._id,
+            anexo: itemUpdate.anexo
         }
         const config = {
             headers: {
@@ -149,6 +216,69 @@ const Cardapio: React.FC = () => {
         })
     }
 
+
+
+
+    const imgUpdate = (e: any) => {
+        if (String(e.target.files[0].name).length !== 0) {
+            setInputName(e.target.files[0].name);
+            let formData = new FormData();
+            // console.log('image:', e.target.files[0])
+            formData.append('anexo', e.target.files[0]);
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+            upload.post('/upload/anexo', formData, config).then(res => {
+                setItemUpdate({ ...itemUpdate, anexo: `${UPLOAD_URL}${res.data.res}` })
+                //setAnexo(`${UPLOAD_URL}${res.data.res}`);
+                // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
+                setLoadingUploadUpdate(false);
+                addToast(`Atividade pronta para atualizada!`, {
+                    appearance: 'info',
+                    autoDismiss: true,
+                })
+                addToast(`Pressione no botão atualizar dados!`, {
+                    appearance: 'info',
+                    autoDismiss: true,
+                })
+
+            }).catch(res => console.log(res))
+        }
+    }
+
+
+
+    const imgSubmit = (e: any) => {
+        if (String(e.target.files[0].name).length !== 0) {
+            setInputName(e.target.files[0].name);
+            let formData = new FormData();
+            // console.log('image:', e.target.files[0])
+            formData.append('anexo', e.target.files[0]);
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+            upload.post('/upload/anexo', formData, config).then(res => {
+                setAnexo(`${UPLOAD_URL}${res.data.res}`);
+                // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
+                setLoadingUpload(false);
+                addToast(`Cardapio pronta para ser criado!`, {
+                    appearance: 'info',
+                    autoDismiss: true,
+                })
+                addToast(`Pressione no botão criar cardapio!`, {
+                    appearance: 'info',
+                    autoDismiss: true,
+                })
+
+
+            }).catch(res => console.log(res))
+        }
+    }
+
     return (
         <>
             <Header />
@@ -158,7 +288,14 @@ const Cardapio: React.FC = () => {
                     return (
                         <React.Fragment key={res._id}>
                             <div className='vauibvusir' >
-                                <div className='cbakusrycvskV' />
+
+                                <a onClick={(e) => {
+                                    e.preventDefault();
+                                    window.open(`${res.anexo}`, '_blank')
+                                }} className='cbakusrycvskV' href={''}>
+                                    <img height='70%' src={Anexo} alt="anexo" />
+                                </a>
+
                                 <div className='cbakusrycvskV cursor' onClick={() => {
                                     setItemUpdate(res);
                                     setModal2(true);
@@ -184,12 +321,18 @@ const Cardapio: React.FC = () => {
                 <form onSubmit={onSubmit} className='formsss' encType='multipart/form-data'>
                     <div className='rowss' >
                         {/* <label htmlFor="lname"> Descrição</label> */}
-                        <input className={'inpstshome'} value={name} onChange={(e) => setName(e.target.value)} placeholder="Insira um nome" type="text" />
-                        <input className={'inpstshome'} value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Insira uma descrição" type="text" />
-                        <input className={'inpstshome'} value={date} onChange={(e) => setDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data" type="text" />
+                        <input className="input-group mb-3" value={name} onChange={(e) => setName(e.target.value)} placeholder="Insira um nome" type="text" />
+                        <input className="input-group mb-3" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Insira uma descrição" type="text" />
+                        <input className="input-group mb-3" value={date} onChange={(e) => setDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data" type="text" />
+                        <div className="input-group mb-3">
+                            <div className="custom-file">
+                                <input type="file" onChange={(e: any) => imgSubmit(e)} className="custom-file-input btbyfhnbfe" id="inputGroupFile01" />
+                                <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
+                            </div>
+                        </div>
                     </div>
 
-                    <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Fazer Upload</strong>
+                    <strong onClick={onSubmit} className='vjanltjviurytrhbnkc' >Criar um cardápio</strong>
                 </form>
             </Modal>
             <Modal
@@ -199,10 +342,16 @@ const Cardapio: React.FC = () => {
                 appElement={document.getElementById('root') as HTMLElement}
                 contentLabel="Form Modal">
                 <div className='carusyuiuytfbnm'>
-                    <input value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
-                    <input value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
-                    <input value={itemUpdate.data} onChange={(e) => setItemUpdate({ ...itemUpdate, data: e.target.value })} />
-                    <strong onClick={onUpdate} className='vjanltjviurytrhbnkc' >Atualizar</strong>
+                    <input className="input-group mb-3" value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
+                    <input className="input-group mb-3" value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
+                    <input className="input-group mb-3" value={itemUpdate.data} onChange={(e) => setItemUpdate({ ...itemUpdate, data: mask(e.target.value, '99/99/9999')})} />
+                    <div className="input-group mb-3">
+                        <div className="custom-file">
+                            <input type="file" onChange={(e: any) => imgUpdate(e)} className="custom-file-input btbyfhnbfe" id="inputGroupFile01" />
+                            <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
+                        </div>
+                    </div>
+                    <strong onClick={onUpdate} className='vjanltjviurytrhbnkc' >Atualizar Dados</strong>
                 </div>
             </Modal>
             <div onClick={() => setModal(true)} className="float">

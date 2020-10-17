@@ -46,27 +46,26 @@ const Atividades: React.FC = () => {
     }, [])
 
     const onUpdate = () => {
-        const a = endDate.split('/')
-        const b = initialDate.split('/')
-        if ((Number(a[0]) >= 32) || (Number(b[0]) >= 32)) {
-            return addToast(`Insira somente datas válidas`, {
+        const a = itemUpdate.endDate.split('/')
+        const b = itemUpdate.initialDate.split('/')
+        if ((Number(a[0]) >= 32) || (Number(b[0]) >= 32) || (Number(a[0]) === 0) || (Number(b[0]) === 0)) {
+            return addToast(`Insira somente datas válidas (dia)`, {
                 appearance: 'info',
                 autoDismiss: true,
             })
         }
-        if ((Number(a[1]) >= 13) || (Number(b[1]) >= 13)) {
-            return addToast(`Insira somente datas válidas`, {
+        if ((Number(a[1]) >= 13) || (Number(b[1]) >= 13) || (Number(a[1]) === 0) || (Number(b[1]) === 0)) {
+            return addToast(`Insira somente datas válidas (mês)`, {
                 appearance: 'info',
                 autoDismiss: true,
             })
         }
         if ((Number(a[2]) < 2020) || (Number(b[1]) < 2020)) {
-            return addToast(`Insira somente datas válidas`, {
+            return addToast(`Insira somente datas válidas (ano)`, {
                 appearance: 'info',
                 autoDismiss: true,
             })
         }
-
         if (loadingUploadUpdate) {
             return addToast(`Aguarde! fazendo upload da imagem...`, {
                 appearance: 'info',
@@ -179,20 +178,20 @@ const Atividades: React.FC = () => {
     const onSubmit = () => {
         const a = endDate.split('/')
         const b = initialDate.split('/')
-        if ((Number(a[0]) >= 32) || (Number(b[0]) >= 32)) {
-            return addToast(`Insira somente datas válidas`, {
+        if ((Number(a[0]) >= 32) || (Number(b[0]) >= 32) || (Number(a[0]) === 0) || (Number(b[0]) === 0)) {
+            return addToast(`Insira somente datas válidas (dia)`, {
                 appearance: 'info',
                 autoDismiss: true,
             })
         }
-        if ((Number(a[1]) >= 13) || (Number(b[1]) >= 13)) {
-            return addToast(`Insira somente datas válidas`, {
+        if ((Number(a[1]) >= 13) || (Number(b[1]) >= 13) || (Number(a[1]) === 0) || (Number(b[1]) === 0)) {
+            return addToast(`Insira somente datas válidas (mês)`, {
                 appearance: 'info',
                 autoDismiss: true,
             })
         }
         if ((Number(a[2]) < 2020) || (Number(b[1]) < 2020)) {
-            return addToast(`Insira somente datas válidas`, {
+            return addToast(`Insira somente datas válidas (ano)`, {
                 appearance: 'info',
                 autoDismiss: true,
             })
