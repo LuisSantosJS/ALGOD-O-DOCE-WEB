@@ -184,12 +184,7 @@ const Cardapio: React.FC = () => {
             })
         }
 
-        if (loadingUploadUpdate) {
-            return addToast(`Aguarde! fazendo upload da imagem...`, {
-                appearance: 'info',
-                autoDismiss: true,
-            })
-        }
+
 
 
         const valuess = {

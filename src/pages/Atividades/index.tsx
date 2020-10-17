@@ -66,13 +66,6 @@ const Atividades: React.FC = () => {
                 autoDismiss: true,
             })
         }
-        if (loadingUploadUpdate) {
-            return addToast(`Aguarde! fazendo upload da imagem...`, {
-                appearance: 'info',
-                autoDismiss: true,
-            })
-        }
-
 
         const valuess = {
             description: itemUpdate.description,
