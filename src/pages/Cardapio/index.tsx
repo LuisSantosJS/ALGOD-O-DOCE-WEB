@@ -18,6 +18,12 @@ interface Item {
     anexo: string
 
 }
+
+
+interface Turma {
+    _id: string,
+    name: string
+}
 const del = require('../../assets/delete.png');
 const Add = require('../../assets/add-image.png');
 const Anexo = require('../../assets/anexo.png');
@@ -32,11 +38,18 @@ const Cardapio: React.FC = () => {
     const [loadingUpload, setLoadingUpload] = useState<boolean>(true);
     const [loadingUploadUpdate, setLoadingUploadUpdate] = useState<boolean>(true);
     const [anexo, setAnexo] = useState<string>('');
+    const [turmas, setTurmas] = useState<Turma[]>([]);
 
     const { addToast } = useToasts();
 
+    useEffect(() => {
+        api.get('/turmas/index').then(res => {
+            setTurmas(res.data)
+        })
+    }, [])
+
     const [desc, setDesc] = useState<string>('');
-    const [name, setName] = useState<string>('');
+    const [name, setName] = useState<string>(String(turmas[0]?.name));
     const [date, setDate] = useState<string>('');
 
     useEffect(() => {
@@ -44,6 +57,8 @@ const Cardapio: React.FC = () => {
             setResult(res.data);
         })
     }, []);
+
+
     useEffect(() => {
         setTitle('Cardápio');
         return () => {
@@ -321,7 +336,15 @@ const Cardapio: React.FC = () => {
                 <form onSubmit={onSubmit} className='formsss' encType='multipart/form-data'>
                     <div className='rowss' >
                         {/* <label htmlFor="lname"> Descrição</label> */}
-                        <input className="input-group mb-3" value={name} onChange={(e) => setName(e.target.value)} placeholder="Insira um nome" type="text" />
+                        <select value={name} onChange={(e)=> setName(e.currentTarget.value)} className="form-control" id="exampleFormControlSelect1">
+                            {turmas.map(res => {
+                                return (
+                                    <option onClick={(e)=> console.log('click', e.currentTarget.value)} key={res._id}>{res.name}</option>
+                                )
+                            })}
+                        </select>
+                        <br/>
+                        {/* <input className="input-group mb-3" value={name} onChange={(e) => setName(e.target.value)} placeholder="Insira um nome" type="text" /> */}
                         <input className="input-group mb-3" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Insira uma descrição" type="text" />
                         <input className="input-group mb-3" value={date} onChange={(e) => setDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data" type="text" />
                         <div className="input-group mb-3">
@@ -344,7 +367,7 @@ const Cardapio: React.FC = () => {
                 <div className='carusyuiuytfbnm'>
                     <input className="input-group mb-3" value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
                     <input className="input-group mb-3" value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
-                    <input className="input-group mb-3" value={itemUpdate.data} onChange={(e) => setItemUpdate({ ...itemUpdate, data: mask(e.target.value, '99/99/9999')})} />
+                    <input className="input-group mb-3" value={itemUpdate.data} onChange={(e) => setItemUpdate({ ...itemUpdate, data: mask(e.target.value, '99/99/9999') })} />
                     <div className="input-group mb-3">
                         <div className="custom-file">
                             <input type="file" onChange={(e: any) => imgUpdate(e)} className="custom-file-input btbyfhnbfe" id="inputGroupFile01" />
