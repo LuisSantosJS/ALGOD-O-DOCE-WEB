@@ -101,7 +101,7 @@ const Home: React.FC = () => {
                     <nav id="nav-menu-container">
                         <ul className="nav-menu">
                             <li className="menu-active">
-                                <a href="#">Home</a>
+                                <a href="#intro">Home</a>
                             </li>
                             <li>
                                 <a href="#turmas">Turmas</a>
@@ -840,23 +840,23 @@ const Home: React.FC = () => {
                                 <ul>
                                     <li>
                                         <i className="fa fa-angle-right"></i>{" "}
-                                        <a href="#">Home</a>
+                                        <a href="#intro">Home</a>
                                     </li>
                                     <li>
                                         <i className="fa fa-angle-right"></i>{" "}
-                                        <a href="#">A Escola</a>
+                                        <a href="#about">A Escola</a>
                                     </li>
                                     <li>
                                         <i className="fa fa-angle-right"></i>{" "}
-                                        <a href="#">Turmas</a>
+                                        <a href="#turmas">Turmas</a>
                                     </li>
                                     <li>
                                         <i className="fa fa-angle-right"></i>{" "}
-                                        <a href="#">Cardápio</a>
+                                        <a href="#cardapio">Cardápio</a>
                                     </li>
                                     <li>
                                         <i className="fa fa-angle-right"></i>{" "}
-                                        <a href="#">Diversos</a>
+                                        <a href="#atividades">Atividades</a>
                                     </li>
                                 </ul>
                             </div>
@@ -866,7 +866,7 @@ const Home: React.FC = () => {
                                 <ul>
                                     <li>
                                         <i className="fa fa-angle-right"></i>{" "}
-                                        <a href="#">Galerias</a>
+                                        <a href="#gallery">Galerias</a>
                                     </li>
                                     <li>
                                         <i className="fa fa-angle-right"></i>{" "}
@@ -882,7 +882,7 @@ const Home: React.FC = () => {
                                     </li>
                                     <li>
                                         <i className="fa fa-angle-right"></i>{" "}
-                                        <a href="#">Contato</a>
+                                        <a href="#contact">Contato</a>
                                     </li>
                                 </ul>
                             </div>
