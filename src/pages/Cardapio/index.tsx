@@ -164,7 +164,13 @@ const Cardapio: React.FC = () => {
     const onUpdate = () => {
         const a = itemUpdate.data.split('/');
 
-
+        if (loadingUploadUpdate) {
+            return addToast(`Aguarde! fazendo upload da imagem...`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
+        
         if ((Number(a[0]) >= 32) || (Number(a[0]) === 0)) {
             return addToast(`Insira somente datas válidas (dia)`, {
                 appearance: 'info',

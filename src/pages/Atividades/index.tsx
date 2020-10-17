@@ -46,6 +46,12 @@ const Atividades: React.FC = () => {
     }, [setTitle])
 
     const onUpdate = () => {
+        if (loadingUploadUpdate) {
+            return addToast(`Aguarde! fazendo upload da imagem...`, {
+                appearance: 'info',
+                autoDismiss: true,
+            })
+        }
         const a = itemUpdate.endDate.split('/')
         const b = itemUpdate.initialDate.split('/')
         if ((Number(a[0]) >= 32) || (Number(b[0]) >= 32) || (Number(a[0]) === 0) || (Number(b[0]) === 0)) {
