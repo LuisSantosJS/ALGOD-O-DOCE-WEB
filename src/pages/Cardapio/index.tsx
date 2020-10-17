@@ -336,14 +336,14 @@ const Cardapio: React.FC = () => {
                 <form onSubmit={onSubmit} className='formsss' encType='multipart/form-data'>
                     <div className='rowss' >
                         {/* <label htmlFor="lname"> Descrição</label> */}
-                        <select value={name} onChange={(e)=> setName(e.currentTarget.value)} className="form-control" id="exampleFormControlSelect1">
+                        <select value={name} onChange={(e) => setName(e.currentTarget.value)} className="form-control" id="exampleFormControlSelect1">
                             {turmas.map(res => {
                                 return (
-                                    <option onClick={(e)=> console.log('click', e.currentTarget.value)} key={res._id}>{res.name}</option>
+                                    <option  key={res._id}>{res.name}</option>
                                 )
                             })}
                         </select>
-                        <br/>
+                        <br />
                         {/* <input className="input-group mb-3" value={name} onChange={(e) => setName(e.target.value)} placeholder="Insira um nome" type="text" /> */}
                         <input className="input-group mb-3" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Insira uma descrição" type="text" />
                         <input className="input-group mb-3" value={date} onChange={(e) => setDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data" type="text" />
@@ -365,6 +365,14 @@ const Cardapio: React.FC = () => {
                 appElement={document.getElementById('root') as HTMLElement}
                 contentLabel="Form Modal">
                 <div className='carusyuiuytfbnm'>
+                    <select value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} className="form-control" id="exampleFormControlSelect1">
+                        {turmas.map(res => {
+                            return (
+                                <option  key={res._id}>{res.name}</option>
+                            )
+                        })}
+                    </select>
+                    <br />
                     <input className="input-group mb-3" value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
                     <input className="input-group mb-3" value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
                     <input className="input-group mb-3" value={itemUpdate.data} onChange={(e) => setItemUpdate({ ...itemUpdate, data: mask(e.target.value, '99/99/9999') })} />
