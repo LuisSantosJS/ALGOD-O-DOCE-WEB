@@ -10,6 +10,23 @@ interface Turmas {
     imageURL: string;
 }
 
+interface Atividade {
+    _id: string;
+    name: string;
+    description: string;
+    imageURL: string;
+    initialDate: string;
+    endDate: string;
+}
+
+interface Cardapio {
+    _id: string;
+    name: string;
+    description: string;
+    anexo: string;
+    data: string;
+}
+
 interface Portifolio {
     _id: string;
     name: string;
@@ -23,9 +40,13 @@ interface Galery {
     imageURL: string;
 }
 const Home: React.FC = () => {
-    const [turmas, setTurmas] = useState<Turmas[]>([]);
-    const [galery, setGalery] = useState<Galery[]>([]);
     const [portifolio, setPortifolio] = useState<Portifolio[]>([]);
+    const [turmas, setTurmas] = useState<Turmas[]>([]);
+    const [atividades, setAtividades] = useState<Atividade[]>([]);
+    const [cardapios, setCardapios] = useState<Cardapio[]>([]);
+    
+    const [galery, setGalery] = useState<Galery[]>([]);
+    
 
     const loadTurmas = () => {
         api.get("/turmas/index").then((res) => {
@@ -43,10 +64,26 @@ const Home: React.FC = () => {
         });
     };
 
+    const loadAtividades = () => {
+        api.get("/atividade/index").then((res) => {
+            console.log("atividades", res.data)
+            setAtividades(res.data);
+        });
+    };
+
+    const loadCardapios = () => {
+        api.get("/cardapio/index").then((res) => {
+            setCardapios(res.data);
+        });
+    };
+
     useEffect(() => {
-        loadTurmas();
-        loadGalery();
         loadPortifolio();
+        loadTurmas();
+        loadAtividades();
+        loadCardapios();
+        loadGalery();
+        
     }, []);
     return (
         <>
@@ -415,6 +452,90 @@ const Home: React.FC = () => {
                                                         <i className="fa fa-linkedin"></i>
                                                     </a>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </section>
+
+                <section id="atividades">
+                    <div className="container" data-aos="fade-up">
+                        <div className="section-header">
+                            <h2>Atividades</h2>
+                            <p>Lista de Atividades Semanais</p>
+                        </div>
+
+                        <div className="row" >
+                            {atividades.map((atividade) => {
+                                return (
+                                    <div
+                                        key={atividade._id}
+                                        className="col-lg-4 col-md-6"
+                                    >
+                                        <div
+                                            className="card"
+                                            data-aos="fade-up"
+                                            data-aos-delay="100"
+                                            style={{ marginBottom: '10px'}}
+                                        >
+                                            <div className="card-header">
+                                                <h3 className="card-title">
+                                                    <i className="fa fa-calendar" style={{marginRight: '10px'}}></i>{atividade.name}
+                                                </h3>
+                                            </div>
+                                            <div className="card-body">
+                                                <p className="card-text">{atividade.description}</p>
+                                                <span>Período: {atividade.initialDate} à {atividade.endDate}</span>
+                                                <a 
+                                                    href={`${atividade.imageURL}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{float:'right', marginTop: '10px'}}
+                                                    className="btn btn-success">Baixar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </section>
+
+                <section id="cardapio" style={{padding: '20px 10px', marginTop: '15px'}}>
+                    <div className="container" data-aos="fade-up">
+                        <div className="section-header">
+                            <h2>Cardápio Mensal</h2>
+                            <p>Cardápio do Mês de Outubro / 2020</p>
+                        </div>
+
+                        <div className="row">
+                            {cardapios.map((cardapio) => {
+                                return (
+                                    <div
+                                        key={cardapio._id}
+                                        className="col-lg-4 col-md-6"
+                                    >
+                                        <div
+                                            className="turma"
+                                            data-aos="fade-up"
+                                            data-aos-delay="100"
+                                        >
+                                            <div className="details" style={{marginTop: '15px'}}>
+                                                <h3>
+                                                <i className="fa fa-cutlery" style={{marginRight: '10px'}}></i>{cardapio.name}
+                                                </h3>
+                                                <p>{cardapio.description}</p>
+                                                <span>Publicado em: {cardapio.data}</span>
+                                                <br />
+                                                <a 
+                                                    href={`${cardapio.anexo}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{marginTop: '10px'}}
+                                                    className="btn btn-danger">Download</a>
                                             </div>
                                         </div>
                                     </div>
