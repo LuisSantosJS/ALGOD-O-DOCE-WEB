@@ -1,17 +1,15 @@
 import React from 'react';
 import { URL } from '../../service/api';
 import { Link } from 'react-router-dom';
-import { useUserSaved, useToken } from '../../context/contextMain';
+import { useToken } from '../../context/contextMain';
 import { useTitle } from '../../context/contextHeader';
 import './styles.css'
 const Header: React.FC = () => {
-    const { userSaved, setUserSaved } = useUserSaved();
     const { setToken } = useToken();
     const { title } = useTitle();
     const onExit = () => {
         localStorage.setItem('userSaved', 'false')
         setToken('');
-        setUserSaved(false);
     }
 
     return (
@@ -32,22 +30,19 @@ const Header: React.FC = () => {
                                     Voltar a página inicial
                                 </Link>
                             </li>
-                            {userSaved && <>
-                                <li>
+                            <li>
                                 <Link className={'textBashBoard'} to="/admin">
                                     Admin
                                 </Link>
-                                </li>
-                                <li>
-                                    <Link to='/' onClick={(e) => {
-                                        onExit();
-                                        e.preventDefault()
-                                    }} className={'textBashBoard'}>
-                                        Sair
+                            </li>
+                            <li>
+                                <Link to='/' onClick={(e) => {
+                                    onExit();
+                                    e.preventDefault()
+                                }} className={'textBashBoard'}>
+                                    Sair
                                 </Link>
-                                </li>
-                            </>
-                            }
+                            </li>
                         </ul>
                     </nav>
                 </div>
