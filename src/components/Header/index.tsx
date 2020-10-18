@@ -27,20 +27,27 @@ const Header: React.FC = () => {
                     </div>
                     <nav id="nav-menu-container">
                         <ul className="nav-menu">
-                            <li className="menu-active">
+                            <li>
                                 <Link className={'textBashBoard'} to="/">
                                     Voltar a página inicial
                                 </Link>
                             </li>
                             {userSaved && <>
-                                <li className="menu-active">
+                                <li>
+                                <Link className={'textBashBoard'} to="/admin">
+                                    Admin
+                                </Link>
+                                </li>
+                                <li>
                                     <Link to='/' onClick={(e) => {
                                         onExit();
                                         e.preventDefault()
                                     }} className={'textBashBoard'}>
                                         Sair
                                 </Link>
-                                </li></>}
+                                </li>
+                            </>
+                            }
                         </ul>
                     </nav>
                 </div>

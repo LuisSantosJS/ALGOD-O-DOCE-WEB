@@ -9,6 +9,7 @@ import { useToken } from '../../context/contextMain';
 
 // @ts-ignore
 import { mask } from 'remask'
+import { urltoFile } from '../../utils/fileToBase64';
 
 interface Item {
     _id: string,
@@ -18,11 +19,9 @@ interface Item {
     initialDate: string,
     endDate: string
 }
-const del = require('../../assets/delete.png');
+
 const Add = require('../../assets/add-image.png');
 const Atividades: React.FC<any> = () => {
-
-
     const { setTitle } = useTitle();
     const [result, setResult] = useState<Item[]>([]);
     const [modal, setModal] = useState<boolean>(false);
@@ -33,11 +32,13 @@ const Atividades: React.FC<any> = () => {
     const { addToast } = useToasts();
     const [loadingUpload, setLoadingUpload] = useState<boolean>(true);
     const [loadingUploadUpdate, setLoadingUploadUpdate] = useState<boolean>(true);
-    const [inputName, setInputName] = useState<string>('Selecionar foto');
+    const [inputName, setInputName] = useState<string>('Selecionar arquivo');
     const [desc, setDesc] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [initialDate, setInitialDate] = useState<string>('');
     const [endDate, setEndDate] = useState<string>('');
+    const [fileType, setFileType] = useState<string>('');
+    
     useEffect(() => {
         setTitle('Atividades');
         return () => {
@@ -72,7 +73,7 @@ const Atividades: React.FC<any> = () => {
                 autoDismiss: true,
             })
         }
-
+        
         const valuess = {
             description: itemUpdate.description,
             name: itemUpdate.name,
@@ -86,6 +87,7 @@ const Atividades: React.FC<any> = () => {
                 'x-access-token': `${token}`
             }
         }
+        
         api.post('/atividade/update', valuess, config).then(res => {
             if (res.data.message === 'error') {
                 setModal(false);
@@ -117,18 +119,35 @@ const Atividades: React.FC<any> = () => {
         })
     }, []);
 
+    const getIconFromFileType = () => {
+        let iconType = "";
+        if (fileType === '') iconType = 'fa fa-file-o fa-3x';
+        if (fileType.indexOf('word') > -1) iconType = 'fa fa-file-word-o fa-3x';
+        if (fileType.indexOf('pdf') > -1) iconType ='fa fa-file-pdf-o fa-3x';
+        return iconType;
+    }
+
+    const checkIfFileExists = (fileData : any) =>  {
+        let checkStatus = "";
+        if (!fileData) {
+            checkStatus = "Sem arquivo anexado !";
+            return;
+        } else {
+            checkStatus = "Arquivo já em anexo";
+        }
+        
+        urltoFile(fileData, 'arquivo').then((file : any) => {
+            setFileType(file.type);            
+        });
+        return checkStatus;
+    }
 
     const imgSubmit = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
             setInputName(e.target.files[0].name);
-            // let formData = new FormData();
-            // // console.log('image:', e.target.files[0])
-            // formData.append('anexo', e.target.files[0]);
-
             var reader = new FileReader();
             var file = e.target.files[0];
             reader.onload = function (upload: any) {
-                console.log('result', upload.target.result);
                 setAnexo(String(upload.target.result));
                 setLoadingUpload(false);
                 addToast(`Atividade pronta para ser criada!`, {
@@ -139,32 +158,8 @@ const Atividades: React.FC<any> = () => {
                     appearance: 'info',
                     autoDismiss: true,
                 })
-
             };
             reader.readAsDataURL(file);
-
-            console.log("Uploaded");
-
-            // const config = {
-            //     headers: {
-            //         'content-type': 'multipart/form-data'
-            //     }
-            // }
-            // upload.post('/upload/anexo', formData, config).then(res => {
-            //     setAnexo(`${res.data.res}`);
-            //     // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
-            //     setLoadingUpload(false);
-            //     addToast(`Atividade pronta para ser criada!`, {
-            //         appearance: 'info',
-            //         autoDismiss: true,
-            //     })
-            //     addToast(`Pressione no botão criar atividade`, {
-            //         appearance: 'info',
-            //         autoDismiss: true,
-            //     })
-
-
-            // }).catch(res => console.log(res))
         }
     }
 
@@ -174,10 +169,7 @@ const Atividades: React.FC<any> = () => {
             var reader = new FileReader();
             var file = e.target.files[0];
             reader.onload = function (upload: any) {
-                console.log('result', upload.target.result);
                 setItemUpdate({ ...itemUpdate, imageURL: `${upload.target.result}` })
-                //setAnexo(`${UPLOAD_URL}${res.data.res}`);
-                // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUploadUpdate(false);
                 addToast(`Atividade pronta para atualizada!`, {
                     appearance: 'info',
@@ -187,38 +179,11 @@ const Atividades: React.FC<any> = () => {
                     appearance: 'info',
                     autoDismiss: true,
                 })
-
             };
             reader.readAsDataURL(file);
-
-            console.log("Uploaded");
-
-
-            // let formData = new FormData();
-            // // console.log('image:', e.target.files[0])
-            // formData.append('anexo', e.target.files[0]);
-            // const config = {
-            //     headers: {
-            //         'content-type': 'multipart/form-data'
-            //     }
-            // }
-            // upload.post('/upload/anexo', formData, config).then(res => {
-            //     setItemUpdate({ ...itemUpdate, imageURL: `${res.data.res}` })
-            //     //setAnexo(`${UPLOAD_URL}${res.data.res}`);
-            //     // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
-            //     setLoadingUploadUpdate(false);
-            //     addToast(`Atividade pronta para atualizada!`, {
-            //         appearance: 'info',
-            //         autoDismiss: true,
-            //     })
-            //     addToast(`Pressione no botão atualizar dados!`, {
-            //         appearance: 'info',
-            //         autoDismiss: true,
-            //     })
-
-            // }).catch(res => console.log(res))
         }
     }
+    
     const onSubmit = () => {
         const a = endDate.split('/')
         const b = initialDate.split('/')
@@ -240,16 +205,13 @@ const Atividades: React.FC<any> = () => {
                 autoDismiss: true,
             })
         }
-
         if (loadingUpload) {
-            return addToast(`Aguarde! fazendo upload da imagem...`, {
+            return addToast(`Aguarde! fazendo upload do arquivo...`, {
                 appearance: 'info',
                 autoDismiss: true,
             })
         }
-
-
-
+        
         const config = {
             headers: {
                 'x-access-token': `${token}`
@@ -262,7 +224,6 @@ const Atividades: React.FC<any> = () => {
             initialDate: String(initialDate),
             endDate: String(endDate)
         }, config).then(res => {
-            console.log(res.data)
             const data: Item = res.data;
             setResult([...result, data]);
             setModal2(false);
@@ -271,16 +232,17 @@ const Atividades: React.FC<any> = () => {
                 autoDismiss: true,
             })
         }).catch((err) => {
-            addToast(`Ocorreu um erro!`, {
+            addToast(`Ocorreu um erro!` + err, {
                 appearance: 'error',
                 autoDismiss: true,
-            })
-            console.log(err)
+            });            
         })
-
     }
 
     const onDelete = (id: string) => {
+        if (!window.confirm('Confirma e exclusão da Atividade ?')) {
+            return;
+        }
         const config = {
             headers: {
                 'x-access-token': `${token}`
@@ -300,14 +262,11 @@ const Atividades: React.FC<any> = () => {
                     appearance: 'success',
                     autoDismiss: true,
                 })
-
             }
         })
-
-
     }
-    const customStyles = {
 
+    const customStyles = {
         content: {
             top: '50%',
             left: '50%',
@@ -322,30 +281,34 @@ const Atividades: React.FC<any> = () => {
         <>
             <Header />
             <main id="main">
-                <div className="spacingviewbash" />
-                <div className="viewContainercsrvu6">
-                    {result.map(res => {
-                        return (
-                            <React.Fragment key={res._id}>
-                                <div className='vtyuioiuytr'  >
-                                    <img src={res.imageURL} className={'agsbsevaw'} alt={res.description} />
-                                    <div className='cbakusrycvskV avasbruaivausrvr cursor' onClick={() => {
-                                        setModal(true);
-                                        setItemUpdate(res);
-                                    }}>
-                                        <h2 className='fnvisunacinsprvs'>{res.name}</h2>
-                                        <h5 className='fnvisunacinsprvs'>{res.description}</h5>
-                                        <h6 className='fnvisunacinsprvs'>{res.initialDate} - {res.endDate}</h6>
+                <div className="container-fluid">
+                    <div className="row" style={{ marginTop: '120px'}}>
+                        <div className="col-12">
+                            <h3>Listagem de Atividades</h3>
+                        </div>
+                    </div>
+                    <div className="row">
+                        {result.map(res => {
+                            return (
+                                <React.Fragment key={res._id}>
+                                    <div className="col-lg-3 col-md-6">
+                                        <div className="card" style={{marginBottom: '10px'}}>
+                                            <div className="card-header">
+                                                <h5><i className="fa fa-file-o fa-2x" style={{marginRight: '10px'}}></i>{res.name}</h5>
+                                            </div>
+                                            <div className="card-body">
+                                                <p className="card-text text-center">{res.description}</p>
+                                                <p className="card-text text-center">De {res.initialDate} à {res.endDate}</p>
+                                                <i className="fa fa-pencil fa-2x"  onClick={() => { setItemUpdate(res); setModal(true); }} style={{color: 'blue', float: 'right', cursor: 'pointer'}} />
+                                                <i className="fa fa-trash-o fa-2x"  onClick={() => onDelete(res._id)} style={{marginRight: '10px', color: 'red', float: 'right', cursor: 'pointer'}} />                                                
+                                            </div>
+                                        </div>
                                     </div>
-                                    <img onClick={() => onDelete(res._id)} className='avptiuytdefghjytr' height='50' src={del} alt="" />
-                                </div>
-                                <br />
-                                <br />
-                            </React.Fragment>
-                        )
-                    })}
+                                </React.Fragment>
+                            )
+                        })}
+                    </div>
                 </div>
-
             </main>
             <Modal
                 isOpen={modal2}
@@ -355,7 +318,6 @@ const Atividades: React.FC<any> = () => {
                 contentLabel="Form Modal">
                 <form onSubmit={onSubmit} className='formsss' encType='multipart/form-data'>
                     <div className='rowss' >
-                        {/* <label htmlFor="lname"> Descrição</label> */}
                         <input className={'inpstshome'} value={name} onChange={(e) => setName(e.target.value)} placeholder="Insira um nome" type="text" />
                         <input className={'inpstshome'} value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Insira uma descrição" type="text" />
                         <input className={'inpstshome'} value={initialDate} onChange={(e) => setInitialDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data de inicio" type="text" />
@@ -379,31 +341,24 @@ const Atividades: React.FC<any> = () => {
                 appElement={document.getElementById('root') as HTMLElement}
                 contentLabel="Form Modal">
                 <div className='vtyuioiuytr'  >
-                    <img src={itemUpdate.imageURL} className={'agsbsevaw'} alt={itemUpdate.description} />
                     <div className='avasbruaivausrvr'>
                         <input className="input-group mb-3" value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
-
                         <input className="input-group mb-3" value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
-
                         <input className="input-group mb-3" value={itemUpdate.initialDate} onChange={(e) => setItemUpdate({ ...itemUpdate, initialDate: e.target.value })} />
-
                         <input className="input-group mb-3" value={itemUpdate.endDate} onChange={(e) => setItemUpdate({ ...itemUpdate, endDate: e.target.value })} />
-
                         <div className="input-group mb-3">
                             <div className="custom-file">
                                 <input type="file" onChange={(e: any) => imgUpdate(e)} className="custom-file-input btbyfhnbfe" id="inputGroupFile01" />
                                 <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
-                            </div>
+                            </div>                            
                         </div>
-
+                        <div className="input-group mb-3">
+                        <i className={getIconFromFileType()} style={{marginRight: '10px'}}></i><span>{checkIfFileExists(itemUpdate.imageURL)}</span>
+                        </div>
                         <strong onClick={onUpdate} className='vjanltjviurytrhbnkc'>Atualizar Dados</strong>
                     </div>
-
                 </div>
-
             </Modal>
-
-
             <div onClick={() => setModal2(true)} className="float">
                 <img height='50%' src={Add} alt="" />
             </div>
