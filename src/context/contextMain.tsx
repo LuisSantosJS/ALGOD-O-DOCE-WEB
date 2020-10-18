@@ -21,6 +21,7 @@ const Provider: React.FC = ({ children }) => {
     useEffect(() => {
         const saved = localStorage.getItem("userSaved");
         const tokess = localStorage.getItem("token");
+        console.log(saved)
         if (String(saved) === "true") {
             setUserSaved(true);
             setToken(String(tokess));

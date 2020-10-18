@@ -5,7 +5,6 @@ import Header from '../../components/Header';
 import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import { useToken } from '../../context/contextMain';
-import upload from '../../service/upload';
 import { useTitle } from '../../context/contextHeader';
 // @ts-ignore
 import { mask } from 'remask'
@@ -36,7 +35,6 @@ const Cardapio: React.FC = () => {
     const [itemUpdate, setItemUpdate] = useState<Item>({} as Item);
     const { token } = useToken();
     const [loadingUpload, setLoadingUpload] = useState<boolean>(true);
-    const [loadingUploadUpdate, setLoadingUploadUpdate] = useState<boolean>(true);
     const [anexo, setAnexo] = useState<string>('');
     const [turmas, setTurmas] = useState<Turma[]>([]);
 
@@ -49,7 +47,7 @@ const Cardapio: React.FC = () => {
     }, [])
 
     const [desc, setDesc] = useState<string>('');
-    const [name, setName] = useState<string>(String(turmas[0]?.name));
+    const [name, setName] = useState<string>('');
     const [date, setDate] = useState<string>('');
 
     useEffect(() => {
@@ -110,7 +108,7 @@ const Cardapio: React.FC = () => {
             const data: Item = res.data;
             setResult([...result, data]);
             setModal(false);
-            addToast(`Imagem enviada com sucesso!`, {
+            addToast(`sucesso!`, {
                 appearance: 'success',
                 autoDismiss: true,
             })
@@ -164,13 +162,13 @@ const Cardapio: React.FC = () => {
     const onUpdate = () => {
         const a = itemUpdate.data.split('/');
 
-        if (loadingUploadUpdate) {
-            return addToast(`Aguarde! fazendo upload da imagem...`, {
-                appearance: 'info',
-                autoDismiss: true,
-            })
-        }
-        
+        // if (loadingUploadUpdate) {
+        //     return addToast(`Aguarde! fazendo upload da imagem...`, {
+        //         appearance: 'info',
+        //         autoDismiss: true,
+        //     })
+        // }
+
         if ((Number(a[0]) >= 32) || (Number(a[0]) === 0)) {
             return addToast(`Insira somente datas válidas (dia)`, {
                 appearance: 'info',
@@ -199,7 +197,7 @@ const Cardapio: React.FC = () => {
             description: itemUpdate.description,
             data: itemUpdate.data,
             id: itemUpdate._id,
-            anexo: itemUpdate.anexo
+            anexo: String(itemUpdate.anexo)
         }
         const config = {
             headers: {
@@ -238,20 +236,15 @@ const Cardapio: React.FC = () => {
     const imgUpdate = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
             setInputName(e.target.files[0].name);
-            let formData = new FormData();
-            // console.log('image:', e.target.files[0])
-            formData.append('anexo', e.target.files[0]);
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
-            upload.post('/upload/anexo', formData, config).then(res => {
-                setItemUpdate({ ...itemUpdate, anexo: `${res.data.res}` })
+            var reader = new FileReader();
+            var file = e.target.files[0];
+            reader.onload = function (upload: any) {
+                console.log('result', upload.target.result);
+                setItemUpdate({ ...itemUpdate, anexo: `${upload.target.result}` })
                 //setAnexo(`${UPLOAD_URL}${res.data.res}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
-                setLoadingUploadUpdate(false);
-                addToast(`Atividade pronta para atualizada!`, {
+
+                addToast(`Cardápio pronto para atualizado!`, {
                     appearance: 'info',
                     autoDismiss: true,
                 })
@@ -260,7 +253,39 @@ const Cardapio: React.FC = () => {
                     autoDismiss: true,
                 })
 
-            }).catch(res => console.log(res))
+            };
+            reader.readAsDataURL(file);
+
+            console.log("Uploaded");
+
+
+
+
+
+
+            // let formData = new FormData();
+            // // console.log('image:', e.target.files[0])
+            // formData.append('anexo', e.target.files[0]);
+            // const config = {
+            //     headers: {
+            //         'content-type': 'multipart/form-data'
+            //     }
+            // }
+            // upload.post('/upload/anexo', formData, config).then(res => {
+            //     setItemUpdate({ ...itemUpdate, anexo: `${res.data.res}` })
+            //     //setAnexo(`${UPLOAD_URL}${res.data.res}`);
+            //     // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
+            //     setLoadingUploadUpdate(false);
+            //     addToast(`Atividade pronta para atualizada!`, {
+            //         appearance: 'info',
+            //         autoDismiss: true,
+            //     })
+            //     addToast(`Pressione no botão atualizar dados!`, {
+            //         appearance: 'info',
+            //         autoDismiss: true,
+            //     })
+
+            // }).catch(res => console.log(res))
         }
     }
 
@@ -269,16 +294,11 @@ const Cardapio: React.FC = () => {
     const imgSubmit = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
             setInputName(e.target.files[0].name);
-            let formData = new FormData();
-            // console.log('image:', e.target.files[0])
-            formData.append('anexo', e.target.files[0]);
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
-            upload.post('/upload/anexo', formData, config).then(res => {
-                setAnexo(`${res.data.res}`);
+            var reader = new FileReader();
+            var file = e.target.files[0];
+            reader.onload = function (upload: any) {
+                console.log('result', upload.target.result);
+                setAnexo(`${upload.target.result}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUpload(false);
                 addToast(`Cardapio pronta para ser criado!`, {
@@ -290,8 +310,34 @@ const Cardapio: React.FC = () => {
                     autoDismiss: true,
                 })
 
+            };
+            reader.readAsDataURL(file);
 
-            }).catch(res => console.log(res))
+            console.log("Uploaded");
+
+            // let formData = new FormData();
+            // // console.log('image:', e.target.files[0])
+            // formData.append('anexo', e.target.files[0]);
+            // const config = {
+            //     headers: {
+            //         'content-type': 'multipart/form-data'
+            //     }
+            // }
+            // upload.post('/upload/anexo', formData, config).then(res => {
+            //     setAnexo(`${res.data.res}`);
+            //     // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
+            //     setLoadingUpload(false);
+            //     addToast(`Cardapio pronta para ser criado!`, {
+            //         appearance: 'info',
+            //         autoDismiss: true,
+            //     })
+            //     addToast(`Pressione no botão criar cardapio!`, {
+            //         appearance: 'info',
+            //         autoDismiss: true,
+            //     })
+
+
+            // }).catch(res => console.log(res))
         }
     }
 
@@ -305,9 +351,10 @@ const Cardapio: React.FC = () => {
                         <React.Fragment key={res._id}>
                             <div className='vauibvusir' >
 
-                                <strong  onClick={(e) => {
+                                <strong onClick={(e) => {
                                     e.preventDefault();
-                                    window.open(`${res.anexo}`, '_blank')
+                                    //window.open(`${res.anexo}`, '_blank')
+                                    window.open(res.anexo, '_blank');
                                 }} className='cbakusrycvskV cursor'>
                                     <img height='70%' src={Anexo} alt="anexo" />
                                 </strong>
@@ -337,10 +384,10 @@ const Cardapio: React.FC = () => {
                 <form onSubmit={onSubmit} className='formsss' encType='multipart/form-data'>
                     <div className='rowss' >
                         {/* <label htmlFor="lname"> Descrição</label> */}
-                        <select value={name} onChange={(e) => setName(e.currentTarget.value)} className="form-control" id="exampleFormControlSelect1">
+                        <select defaultValue={String(turmas[0]?.name)} value={name} onChange={(e) => setName(e.currentTarget.value)} className="form-control" id="exampleFormControlSelect1">
                             {turmas.map(res => {
                                 return (
-                                    <option  key={res._id}>{res.name}</option>
+                                    <option key={res._id}>{res.name}</option>
                                 )
                             })}
                         </select>
@@ -366,15 +413,17 @@ const Cardapio: React.FC = () => {
                 appElement={document.getElementById('root') as HTMLElement}
                 contentLabel="Form Modal">
                 <div className='carusyuiuytfbnm'>
-                    <select value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} className="form-control" id="exampleFormControlSelect1">
+                    <br />
+                    <br />
+                    <select defaultValue={String(turmas[0]?.name)} value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} className="form-control" id="exampleFormControlSelect1">
                         {turmas.map(res => {
                             return (
-                                <option  key={res._id}>{res.name}</option>
+                                <option key={res._id}>{res.name}</option>
                             )
                         })}
                     </select>
                     <br />
-                    <input className="input-group mb-3" value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
+                    {/* <input className="input-group mb-3" value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} /> */}
                     <input className="input-group mb-3" value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
                     <input className="input-group mb-3" value={itemUpdate.data} onChange={(e) => setItemUpdate({ ...itemUpdate, data: mask(e.target.value, '99/99/9999') })} />
                     <div className="input-group mb-3">

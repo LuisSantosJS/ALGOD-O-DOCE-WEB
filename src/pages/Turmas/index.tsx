@@ -5,7 +5,6 @@ import { useToken } from '../../context/contextMain';
 import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import api from '../../service/api';
-import upload from '../../service/upload';
 import { useTitle } from '../../context/contextHeader'
 
 interface Item {
@@ -77,16 +76,11 @@ const Turmas: React.FC = () => {
     const imgSubmit = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
             setInputName(e.target.files[0].name);
-            let formData = new FormData();
-            // console.log('image:', e.target.files[0])
-            formData.append('anexo', e.target.files[0]);
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
-            upload.post('/upload/anexo', formData, config).then(res => {
-                setAnexo(`${res.data.res}`);
+            var reader = new FileReader();
+            var file = e.target.files[0];
+            reader.onload = function (upload: any) {
+                console.log('result', upload.target.result);
+                setAnexo(`${upload.target.result}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUpload(false);
                 addToast(`Turma pronta para ser criada!`, {
@@ -97,23 +91,24 @@ const Turmas: React.FC = () => {
                     appearance: 'info',
                     autoDismiss: true,
                 })
-            }).catch(res => console.log(res))
+            };
+            reader.readAsDataURL(file);
+
+            console.log("Uploaded");
         }
+
+
+
     }
 
     const imgUpdate = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
             setInputName(e.target.files[0].name);
-            let formData = new FormData();
-            // console.log('image:', e.target.files[0])
-            formData.append('anexo', e.target.files[0]);
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
-            upload.post('/upload/anexo', formData, config).then(res => {
-                setItemUpdate({ ...itemUpdate, imageURL: `${res.data.res}` });
+            var reader = new FileReader();
+            var file = e.target.files[0];
+            reader.onload = function (upload: any) {
+                console.log('result', upload.target.result);
+                setItemUpdate({ ...itemUpdate, imageURL: `${upload.target.result}` });
                 // setAnexo(`${UPLOAD_URL}${res.data.res}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUploadUpdate(false);
@@ -125,8 +120,13 @@ const Turmas: React.FC = () => {
                     appearance: 'info',
                     autoDismiss: true,
                 })
-            }).catch(res => console.log(res))
+            };
+            reader.readAsDataURL(file);
+
+            console.log("Uploaded");
         }
+
+
     }
     const customStyles = {
 

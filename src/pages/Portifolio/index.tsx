@@ -6,7 +6,6 @@ import Modal from 'react-modal';
 import { useToasts } from 'react-toast-notifications';
 import api from '../../service/api';
 import { useTitle } from '../../context/contextHeader'
-import upload from '../../service/upload';
 
 interface Item {
     _id: string,
@@ -78,16 +77,11 @@ const Portifolio: React.FC = () => {
     const imgSubmit = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
             setInputName(e.target.files[0].name);
-            let formData = new FormData();
-            // console.log('image:', e.target.files[0])
-            formData.append('anexo', e.target.files[0]);
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
-            upload.post('/upload/anexo', formData, config).then(res => {
-                setAnexo(`${res.data.res}`);
+            var reader = new FileReader();
+            var file = e.target.files[0];
+            reader.onload = function (upload: any) {
+                console.log('result', upload.target.result);
+                setAnexo(`${upload.target.result}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUpload(false);
                 addToast(`Portifólio pronto para ser finalizado!`, {
@@ -98,8 +92,14 @@ const Portifolio: React.FC = () => {
                     appearance: 'info',
                     autoDismiss: true,
                 })
-            }).catch(res => console.log(res))
+            };
+            reader.readAsDataURL(file);
+
+            console.log("Uploaded");
         }
+
+
+
     }
 
     const customStyles = {
@@ -151,7 +151,9 @@ const Portifolio: React.FC = () => {
         const valuess = {
             name: itemUpdate.name,
             description: itemUpdate.description,
-            id: itemUpdate._id
+            id: itemUpdate._id,
+            imageURL: itemUpdate.imageURL
+
         }
         const config = {
             headers: {
@@ -188,16 +190,11 @@ const Portifolio: React.FC = () => {
     const imgUpdate = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
             setInputName(e.target.files[0].name);
-            let formData = new FormData();
-            // console.log('image:', e.target.files[0])
-            formData.append('anexo', e.target.files[0]);
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
-            upload.post('/upload/anexo', formData, config).then(res => {
-                setItemUpdate({ ...itemUpdate, imageURL: `${res.data.res}` })
+            var reader = new FileReader();
+            var file = e.target.files[0];
+            reader.onload = function (upload: any) {
+                // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
+                setItemUpdate({ ...itemUpdate, imageURL: `${upload.target.result}` })
                 //setAnexo(`${UPLOAD_URL}${res.data.res}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUploadUpdate(false);
@@ -210,8 +207,12 @@ const Portifolio: React.FC = () => {
                     autoDismiss: true,
                 })
 
-            }).catch(res => console.log(res))
+            };
+            reader.readAsDataURL(file);
+
+            console.log("Uploaded");
         }
+
     }
 
 

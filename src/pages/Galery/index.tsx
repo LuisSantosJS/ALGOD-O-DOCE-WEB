@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import api from '../../service/api';
 import { useToasts } from 'react-toast-notifications';
-import upload  from '../../service/upload';
 import './styles.css'
 import Modal from 'react-modal';
 import { useTitle } from '../../context/contextHeader'
@@ -59,25 +58,20 @@ const Galery: React.FC = () => {
 
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         setTitle('Galeria');
-        return ()=>{
+        return () => {
             setTitle('Admin');
         }
     }, [setTitle])
     const imgSubmit = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
-            setInputName(e.target.files[0].name);
-            let formData = new FormData();
-            // console.log('image:', e.target.files[0])
-            formData.append('anexo', e.target.files[0]);
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
-            upload.post('/upload/anexo', formData, config).then(res => {
-                setAnexo(`${res.data.res}`);
+            setInputName(`${e.target.files[0].name}`)
+            var reader = new FileReader();
+            var file = e.target.files[0];
+            reader.onload = function (upload: any) {
+                console.log('result', upload.target.result);
+                setAnexo(`${upload.target.result}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUpload(false);
                 addToast(`Imagem pronta para ser finalizada!`, {
@@ -88,7 +82,11 @@ const Galery: React.FC = () => {
                     appearance: 'info',
                     autoDismiss: true,
                 })
-            }).catch(res => console.log(res))
+
+            };
+            reader.readAsDataURL(file);
+
+            console.log("Uploaded");
         }
     }
     const onSubmit = () => {

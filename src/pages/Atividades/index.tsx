@@ -9,7 +9,7 @@ import { useToken } from '../../context/contextMain';
 
 // @ts-ignore
 import { mask } from 'remask'
-import upload  from '../../service/upload'
+
 interface Item {
     _id: string,
     description: string,
@@ -20,7 +20,7 @@ interface Item {
 }
 const del = require('../../assets/delete.png');
 const Add = require('../../assets/add-image.png');
-const Atividades: React.FC = () => {
+const Atividades: React.FC<any> = () => {
 
 
     const { setTitle } = useTitle();
@@ -117,20 +117,19 @@ const Atividades: React.FC = () => {
         })
     }, []);
 
+
     const imgSubmit = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
             setInputName(e.target.files[0].name);
-            let formData = new FormData();
-            // console.log('image:', e.target.files[0])
-            formData.append('anexo', e.target.files[0]);
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
-            upload.post('/upload/anexo', formData, config).then(res => {
-                setAnexo(`${res.data.res}`);
-                // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
+            // let formData = new FormData();
+            // // console.log('image:', e.target.files[0])
+            // formData.append('anexo', e.target.files[0]);
+
+            var reader = new FileReader();
+            var file = e.target.files[0];
+            reader.onload = function (upload: any) {
+                console.log('result', upload.target.result);
+                setAnexo(String(upload.target.result));
                 setLoadingUpload(false);
                 addToast(`Atividade pronta para ser criada!`, {
                     appearance: 'info',
@@ -141,24 +140,42 @@ const Atividades: React.FC = () => {
                     autoDismiss: true,
                 })
 
+            };
+            reader.readAsDataURL(file);
 
-            }).catch(res => console.log(res))
+            console.log("Uploaded");
+
+            // const config = {
+            //     headers: {
+            //         'content-type': 'multipart/form-data'
+            //     }
+            // }
+            // upload.post('/upload/anexo', formData, config).then(res => {
+            //     setAnexo(`${res.data.res}`);
+            //     // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
+            //     setLoadingUpload(false);
+            //     addToast(`Atividade pronta para ser criada!`, {
+            //         appearance: 'info',
+            //         autoDismiss: true,
+            //     })
+            //     addToast(`Pressione no botão criar atividade`, {
+            //         appearance: 'info',
+            //         autoDismiss: true,
+            //     })
+
+
+            // }).catch(res => console.log(res))
         }
     }
 
     const imgUpdate = (e: any) => {
         if (String(e.target.files[0].name).length !== 0) {
             setInputName(e.target.files[0].name);
-            let formData = new FormData();
-            // console.log('image:', e.target.files[0])
-            formData.append('anexo', e.target.files[0]);
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
-            upload.post('/upload/anexo', formData, config).then(res => {
-                setItemUpdate({ ...itemUpdate, imageURL: `${res.data.res}` })
+            var reader = new FileReader();
+            var file = e.target.files[0];
+            reader.onload = function (upload: any) {
+                console.log('result', upload.target.result);
+                setItemUpdate({ ...itemUpdate, imageURL: `${upload.target.result}` })
                 //setAnexo(`${UPLOAD_URL}${res.data.res}`);
                 // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
                 setLoadingUploadUpdate(false);
@@ -171,7 +188,35 @@ const Atividades: React.FC = () => {
                     autoDismiss: true,
                 })
 
-            }).catch(res => console.log(res))
+            };
+            reader.readAsDataURL(file);
+
+            console.log("Uploaded");
+
+
+            // let formData = new FormData();
+            // // console.log('image:', e.target.files[0])
+            // formData.append('anexo', e.target.files[0]);
+            // const config = {
+            //     headers: {
+            //         'content-type': 'multipart/form-data'
+            //     }
+            // }
+            // upload.post('/upload/anexo', formData, config).then(res => {
+            //     setItemUpdate({ ...itemUpdate, imageURL: `${res.data.res}` })
+            //     //setAnexo(`${UPLOAD_URL}${res.data.res}`);
+            //     // console.log('image upload:', `${UPLOAD_URL}${res.data.res}`);
+            //     setLoadingUploadUpdate(false);
+            //     addToast(`Atividade pronta para atualizada!`, {
+            //         appearance: 'info',
+            //         autoDismiss: true,
+            //     })
+            //     addToast(`Pressione no botão atualizar dados!`, {
+            //         appearance: 'info',
+            //         autoDismiss: true,
+            //     })
+
+            // }).catch(res => console.log(res))
         }
     }
     const onSubmit = () => {
@@ -225,11 +270,12 @@ const Atividades: React.FC = () => {
                 appearance: 'success',
                 autoDismiss: true,
             })
-        }).catch(() => {
+        }).catch((err) => {
             addToast(`Ocorreu um erro!`, {
                 appearance: 'error',
                 autoDismiss: true,
             })
+            console.log(err)
         })
 
     }

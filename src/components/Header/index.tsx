@@ -9,7 +9,7 @@ const Header: React.FC = () => {
     const { setToken } = useToken();
     const { title } = useTitle();
     const onExit = () => {
-        localStorage.clear();
+        localStorage.setItem('userSaved', 'false')
         setToken('');
         setUserSaved(false);
     }
@@ -21,7 +21,7 @@ const Header: React.FC = () => {
                     <div id="logo" className="pull-left">
                         <div className="scrollto">
                             <img src={`${URL}/assets/img/logo2.png`} alt="" title="" />
-                            <br/>
+                            <br />
                             <div className="eceegrere">{title}</div>
                         </div>
                     </div>
@@ -34,7 +34,10 @@ const Header: React.FC = () => {
                             </li>
                             {userSaved && <>
                                 <li className="menu-active">
-                                    <Link to='/' onClick={onExit} className={'textBashBoard'}>
+                                    <Link to='/' onClick={(e) => {
+                                        onExit();
+                                        e.preventDefault()
+                                    }} className={'textBashBoard'}>
                                         Sair
                                 </Link>
                                 </li></>}
