@@ -462,12 +462,31 @@ const Home: React.FC = () => {
                 </section>
 
                 <section id="atividades">
-                    <div className="container" data-aos="fade-up">
-                        <div className="section-header">
+                    <div className="container" data-aos="fade-up">                        
+                        <div className="section-header text-center">
                             <h2>Atividades</h2>
                             <p>Lista de Atividades Semanais</p>
+                            <label style={{fontWeight:'bold', marginRight: '10px'}}>Período: </label>
+                            <select className="text-center">
+                                <option value="19-10-2020_23-10-2020" selected>19/10/2020 à 23/10/2020</option>
+                                <option value="12-10-2020_16-10-2020">12/10/2020 à 16/10/2020</option>
+                                <option value="05-10-2020_09-10-2020">05/10/2020 à 09/10/2020</option>
+                                <option value="28-09-2020_02-10-2020">28/09/2020 à 02/10/2020</option>
+                                <option value="21-09-2020_25-09-2020">21/09/2020 à 25/09/2020</option>
+                                <option value="14-09-2020_18-09-2020">14/09/2020 à 18/09/2020</option>
+                                <option value="07-09-2020_11-09-2020">07/09/2020 à 11/09/2020</option>
+                                <option value="31-08-2020_04-09-2020">31/08/2020 à 04/09/2020</option>
+                                <option value="24-08-2020_28-08-2020">24/08/2020 à 28/08/2020</option>
+                                <option value="17-08-2020_21-08-2020">17/08/2020 à 21/08/2020</option>
+                                <option value="10-08-2020_14-08-2020">10/08/2020 à 14/08/2020</option>
+                                <option value="20-07-2020_24-07-2020">20/07/2020 à 24/07/2020</option>
+                                <option value="13-07-2020_17-07-2020">13/07/2020 à 17/07/2020</option>
+                                <option value="06-07-2020_12-07-2020">06/07/2020 à 12/07/2020</option>
+                                <option value="29-06-2020_03-07-2020">29/06/2020 à 03/07/2020</option>
+                                <option value="22-06-2020_26-06-2020">22/06/2020 à 26/06/2020</option>
+                                <option value="15-06-2020_19-06-2020">15/06/2020 à 19/06/2020</option>                
+                            </select>
                         </div>
-
                         <div className="row" >
                             {atividades.map((atividade) => {
                                 return (
@@ -506,9 +525,22 @@ const Home: React.FC = () => {
 
                 <section id="cardapio" style={{padding: '20px 10px', marginTop: '15px'}}>
                     <div className="container" data-aos="fade-up">
-                        <div className="section-header">
+                        <div className="section-header text-center">
                             <h2>Cardápio Mensal</h2>
                             <p>Cardápio do Mês de Outubro / 2020</p>
+                            <label style={{fontWeight:'bold', marginRight: '10px'}}>Mês: </label>
+                            <select className="text-center">
+                                <option value="" selected>Outubro/2020</option>
+                                <option value="">Setembro/2020</option>
+                                <option value="">Agosto/2020</option>
+                                <option value="">Julho/2020</option>
+                                <option value="">Junho/2020</option>
+                                <option value="">Maio/2020</option>
+                                <option value="">Abril/2020</option>
+                                <option value="">Março/2020</option>
+                                <option value="">Fevereiro/2020</option>
+                                <option value="">Janeiro/2020</option>
+                            </select>
                         </div>
 
                         <div className="row">

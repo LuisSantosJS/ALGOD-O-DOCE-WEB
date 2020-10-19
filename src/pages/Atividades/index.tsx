@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+
 import './styles.css';
+
 import api from '../../service/api';
+
 import Header from '../../components/Header';
 import { useTitle } from '../../context/contextHeader';
 import Modal from 'react-modal';
@@ -39,6 +42,7 @@ const Atividades: React.FC<any> = () => {
     const [endDate, setEndDate] = useState<string>('');
     const [fileType, setFileType] = useState<string>('');
     
+
     useEffect(() => {
         setTitle('Atividades');
         return () => {
@@ -317,7 +321,7 @@ const Atividades: React.FC<any> = () => {
             appElement={document.getElementById('root') as HTMLElement}
             contentLabel="Form Modal">
             <h5>Inclusão de Atividade</h5>    
-            <form onSubmit={onSubmit} encType='multipart/form-data'>
+            <form onSubmit={onSubmit} encType='multipart/form-data' id="atividadesForm">
                 <div className="form-group">
                     <input className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Insira um nome" type="text" />
                 </div>
@@ -325,7 +329,7 @@ const Atividades: React.FC<any> = () => {
                     <input className="form-control" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Insira uma descrição" type="text" />
                 </div>
                 <div className="form-group">
-                    <input className="form-control" value={initialDate} onChange={(e) => setInitialDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data de inicio" type="text" />
+                    <input className="form-control" name="initialDate" value={initialDate} onChange={(e) => setInitialDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data de inicio" type="text" />                    
                 </div>
                 <div className="form-group">
                     <input className="form-control" value={endDate} onChange={(e) => setEndDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data final" type="text" />
