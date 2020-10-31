@@ -34,14 +34,14 @@ const Atividades: React.FC<any> = () => {
     const [anexo, setAnexo] = useState<string>('');
     const { addToast } = useToasts();
     const [loadingUpload, setLoadingUpload] = useState<boolean>(true);
-    const [loadingUploadUpdate, setLoadingUploadUpdate] = useState<boolean>(true);
+    // const [loadingUploadUpdate, setLoadingUploadUpdate] = useState<boolean>(true);
     const [inputName, setInputName] = useState<string>('Selecionar arquivo');
     const [desc, setDesc] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [initialDate, setInitialDate] = useState<string>('');
     const [endDate, setEndDate] = useState<string>('');
     const [fileType, setFileType] = useState<string>('');
-    
+
 
     useEffect(() => {
         setTitle('Atividades');
@@ -50,13 +50,14 @@ const Atividades: React.FC<any> = () => {
         }
     }, [setTitle])
 
-    const onUpdate = () => {
-        if (loadingUploadUpdate) {
-            return addToast(`Aguarde! fazendo upload da imagem...`, {
-                appearance: 'info',
-                autoDismiss: true,
-            })
-        }
+    const onUpdate = (e: any) => {
+        e.preventDefault()
+        // if (loadingUploadUpdate) {
+        //     return addToast(`Aguarde! fazendo upload da imagem...`, {
+        //         appearance: 'info',
+        //         autoDismiss: true,
+        //     })
+        // }
         const a = itemUpdate.endDate.split('/')
         const b = itemUpdate.initialDate.split('/')
         if ((Number(a[0]) >= 32) || (Number(b[0]) >= 32) || (Number(a[0]) === 0) || (Number(b[0]) === 0)) {
@@ -77,7 +78,7 @@ const Atividades: React.FC<any> = () => {
                 autoDismiss: true,
             })
         }
-        
+
         const valuess = {
             description: itemUpdate.description,
             name: itemUpdate.name,
@@ -91,7 +92,7 @@ const Atividades: React.FC<any> = () => {
                 'x-access-token': `${token}`
             }
         }
-        
+
         api.post('/atividade/update', valuess, config).then(res => {
             if (res.data.message === 'error') {
                 setModal(false);
@@ -127,11 +128,11 @@ const Atividades: React.FC<any> = () => {
         let iconType = "";
         if (fileType === '') iconType = 'fa fa-file-o fa-3x';
         if (fileType.indexOf('word') > -1) iconType = 'fa fa-file-word-o fa-3x';
-        if (fileType.indexOf('pdf') > -1) iconType ='fa fa-file-pdf-o fa-3x';
+        if (fileType.indexOf('pdf') > -1) iconType = 'fa fa-file-pdf-o fa-3x';
         return iconType;
     }
 
-    const checkIfFileExists = (fileData : any) =>  {
+    const checkIfFileExists = (fileData: any) => {
         let checkStatus = "";
         if (!fileData) {
             checkStatus = "Sem arquivo anexado !";
@@ -139,9 +140,9 @@ const Atividades: React.FC<any> = () => {
         } else {
             checkStatus = "Arquivo já em anexo";
         }
-        
-        urltoFile(fileData, 'arquivo').then((file : any) => {
-            setFileType(file.type);            
+
+        urltoFile(fileData, 'arquivo').then((file: any) => {
+            setFileType(file.type);
         });
         return checkStatus;
     }
@@ -174,7 +175,7 @@ const Atividades: React.FC<any> = () => {
             var file = e.target.files[0];
             reader.onload = function (upload: any) {
                 setItemUpdate({ ...itemUpdate, imageURL: `${upload.target.result}` })
-                setLoadingUploadUpdate(false);
+                // setLoadingUploadUpdate(false);
                 addToast(`Atividade pronta para atualizada!`, {
                     appearance: 'info',
                     autoDismiss: true,
@@ -187,8 +188,9 @@ const Atividades: React.FC<any> = () => {
             reader.readAsDataURL(file);
         }
     }
-    
-    const onSubmit = () => {
+
+    const onSubmit = (e: any) => {
+        e.preventDefault()
         const a = endDate.split('/')
         const b = initialDate.split('/')
         if ((Number(a[0]) >= 32) || (Number(b[0]) >= 32) || (Number(a[0]) === 0) || (Number(b[0]) === 0)) {
@@ -215,7 +217,7 @@ const Atividades: React.FC<any> = () => {
                 autoDismiss: true,
             })
         }
-        
+
         const config = {
             headers: {
                 'x-access-token': `${token}`
@@ -239,7 +241,7 @@ const Atividades: React.FC<any> = () => {
             addToast(`Ocorreu um erro!` + err, {
                 appearance: 'error',
                 autoDismiss: true,
-            });            
+            });
         })
     }
 
@@ -283,102 +285,102 @@ const Atividades: React.FC<any> = () => {
 
     return (
         <>
-        <Header />
-        <main id="main">
-            <div className="container-fluid">
-                <div className="row" style={{ marginTop: '120px'}}>
-                    <div className="col-12">
-                        <h3>Listagem de Atividades</h3>
+            <Header />
+            <main id="main">
+                <div className="container-fluid">
+                    <div className="row" style={{ marginTop: '120px' }}>
+                        <div className="col-12">
+                            <h3>Listagem de Atividades</h3>
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    {result.map(res => {
-                        return (
-                            <React.Fragment key={res._id}>
-                                <div className="col-lg-3 col-md-6">
-                                    <div className="card" style={{marginBottom: '15px'}}>
-                                        <div className="card-header">
-                                            <h5><i className="fa fa-file-o fa-2x" style={{marginRight: '10px'}}></i>{res.name}</h5>
-                                        </div>
-                                        <div className="card-body">
-                                            <p className="card-text text-center">{res.description}</p>
-                                            <p className="card-text text-center">De {res.initialDate} à {res.endDate}</p>
-                                            <i className="fa fa-pencil fa-2x"  onClick={() => { setItemUpdate(res); setModal(true); }} style={{color: 'blue', float: 'right', cursor: 'pointer'}} />
-                                            <i className="fa fa-trash-o fa-2x"  onClick={() => onDelete(res._id)} style={{marginRight: '10px', color: 'red', float: 'right', cursor: 'pointer'}} />                                                
+                    <div className="row">
+                        {result.map(res => {
+                            return (
+                                <React.Fragment key={res._id}>
+                                    <div className="col-lg-3 col-md-6">
+                                        <div className="card" style={{ marginBottom: '15px' }}>
+                                            <div className="card-header">
+                                                <h5><i className="fa fa-file-o fa-2x" style={{ marginRight: '10px' }}></i>{res.name}</h5>
+                                            </div>
+                                            <div className="card-body">
+                                                <p className="card-text text-center">{res.description}</p>
+                                                <p className="card-text text-center">De {res.initialDate} à {res.endDate}</p>
+                                                <i className="fa fa-pencil fa-2x" onClick={() => { setItemUpdate(res); setModal(true); }} style={{ color: 'blue', float: 'right', cursor: 'pointer' }} />
+                                                <i className="fa fa-trash-o fa-2x" onClick={() => onDelete(res._id)} style={{ marginRight: '10px', color: 'red', float: 'right', cursor: 'pointer' }} />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </React.Fragment>
-                        )
-                    })}
-                </div>
-            </div>
-        </main>
-        <Modal
-            isOpen={modal2}
-            onRequestClose={() => setModal2(false)}
-            style={customStyles}
-            appElement={document.getElementById('root') as HTMLElement}
-            contentLabel="Form Modal">
-            <h5>Inclusão de Atividade</h5>    
-            <form onSubmit={onSubmit} encType='multipart/form-data' id="atividadesForm">
-                <div className="form-group">
-                    <input className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Insira um nome" type="text" />
-                </div>
-                <div className="form-group">
-                    <input className="form-control" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Insira uma descrição" type="text" />
-                </div>
-                <div className="form-group">
-                    <input className="form-control" name="initialDate" value={initialDate} onChange={(e) => setInitialDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data de inicio" type="text" />                    
-                </div>
-                <div className="form-group">
-                    <input className="form-control" value={endDate} onChange={(e) => setEndDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data final" type="text" />
-                </div>
-                <div className="form-group">
-                    <div className="custom-file">
-                        <input type="file" onChange={(e: any) => imgSubmit(e)} className="custom-file-input btbyfhnbfe" id="inputGroupFile01" />
-                        <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
+                                </React.Fragment>
+                            )
+                        })}
                     </div>
-                </div>                
-                <button className="btn btn-primary float-right" onClick={onSubmit}>Adicionar Atividade</button>
-            </form>
-        </Modal>
-        <Modal
-            isOpen={modal}
-            onRequestClose={() => setModal(false)}
-            style={customStyles}
-            appElement={document.getElementById('root') as HTMLElement}
-            contentLabel="Form Modal">
-            <h5>Alteração de Atividade</h5>
+                </div>
+            </main>
+            <Modal
+                isOpen={modal2}
+                onRequestClose={() => setModal2(false)}
+                style={customStyles}
+                appElement={document.getElementById('root') as HTMLElement}
+                contentLabel="Form Modal">
+                <h5>Inclusão de Atividade</h5>
+                <form onSubmit={onSubmit} encType='multipart/form-data' id="atividadesForm">
+                    <div className="form-group">
+                        <input className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Insira um nome" type="text" />
+                    </div>
+                    <div className="form-group">
+                        <input className="form-control" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Insira uma descrição" type="text" />
+                    </div>
+                    <div className="form-group">
+                        <input className="form-control" name="initialDate" value={initialDate} onChange={(e) => setInitialDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data de inicio" type="text" />
+                    </div>
+                    <div className="form-group">
+                        <input className="form-control" value={endDate} onChange={(e) => setEndDate(mask(e.target.value, '99/99/9999'))} placeholder="Insira a data final" type="text" />
+                    </div>
+                    <div className="form-group">
+                        <div className="custom-file">
+                            <input type="file" onChange={(e: any) => imgSubmit(e)} className="custom-file-input btbyfhnbfe" id="inputGroupFile01" />
+                            <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
+                        </div>
+                    </div>
+                    <button className="btn btn-primary float-right" onClick={(e) => onSubmit(e)}>Adicionar Atividade</button>
+                </form>
+            </Modal>
+            <Modal
+                isOpen={modal}
+                onRequestClose={() => setModal(false)}
+                style={customStyles}
+                appElement={document.getElementById('root') as HTMLElement}
+                contentLabel="Form Modal">
+                <h5>Alteração de Atividade</h5>
 
-            <form onSubmit={onSubmit} encType='multipart/form-data'>
-                <div className="form-group">
-                    <input className="form-control" value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
-                </div>
-                <div className="form-group">
-                    <input className="form-control" value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
-                </div>
-                <div className="form-group">
-                    <input className="form-control" value={itemUpdate.initialDate} onChange={(e) => setItemUpdate({ ...itemUpdate, initialDate: e.target.value })} />
-                </div>
-                <div className="form-group">
-                    <input className="form-control" value={itemUpdate.endDate} onChange={(e) => setItemUpdate({ ...itemUpdate, endDate: e.target.value })} />
-                </div>
-                <div className="form-group">
-                    <div className="custom-file">
-                        <input type="file" onChange={(e: any) => imgUpdate(e)} className="custom-file-input btbyfhnbfe" id="inputGroupFile01" />
-                        <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
+                <form onSubmit={onSubmit} encType='multipart/form-data'>
+                    <div className="form-group">
+                        <input className="form-control" value={itemUpdate.name} onChange={(e) => setItemUpdate({ ...itemUpdate, name: e.target.value })} />
                     </div>
-                </div>
-                <div className="form-group">
-                    <i className={getIconFromFileType()} style={{marginRight: '10px'}}></i><span>{checkIfFileExists(itemUpdate.imageURL)}</span>
-                </div>
-                <button className="btn btn-primary float-right" onClick={onUpdate}>Atualizar Dados</button>
-            </form>
-        </Modal>
-        <div onClick={() => setModal2(true)} className="float">
-            <img height='50%' src={Add} alt="" />
-        </div>
+                    <div className="form-group">
+                        <input className="form-control" value={itemUpdate.description} onChange={(e) => setItemUpdate({ ...itemUpdate, description: e.target.value })} />
+                    </div>
+                    <div className="form-group">
+                        <input className="form-control" value={itemUpdate.initialDate} onChange={(e) => setItemUpdate({ ...itemUpdate, initialDate: e.target.value })} />
+                    </div>
+                    <div className="form-group">
+                        <input className="form-control" value={itemUpdate.endDate} onChange={(e) => setItemUpdate({ ...itemUpdate, endDate: e.target.value })} />
+                    </div>
+                    <div className="form-group">
+                        <div className="custom-file">
+                            <input type="file" onChange={(e: any) => imgUpdate(e)} className="custom-file-input btbyfhnbfe" id="inputGroupFile01" />
+                            <label className="custom-file-label" htmlFor="inputGroupFile01">{inputName}</label>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <i className={getIconFromFileType()} style={{ marginRight: '10px' }}></i><span>{checkIfFileExists(itemUpdate.imageURL)}</span>
+                    </div>
+                    <button className="btn btn-primary float-right" onClick={(e) => onUpdate(e)}>Atualizar Dados</button>
+                </form>
+            </Modal>
+            <div onClick={() => setModal2(true)} className="float">
+                <img height='50%' src={Add} alt="" />
+            </div>
         </>
     )
 }
