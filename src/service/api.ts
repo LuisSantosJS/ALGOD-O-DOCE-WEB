@@ -1,5 +1,5 @@
 import axios from 'axios';
-const URL = 'http://localhost:3333'
+const URL = 'https://api-algo-doce.herokuapp.com'
 const api = axios.create({
     baseURL: URL,
     validateStatus: (status) => {
